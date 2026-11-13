@@ -4,30 +4,43 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nizar — I build the whole thing</title>
-<meta name="description" content="Nizar, a developer in Amman, Jordan. Websites, phone apps, device firmware and the servers behind them: Flower JO, 4Tech, 4Tech-IoT, FAO Properties and Pumpkin Group.">
+<meta name="description" content="Nizar, a developer in Amman, Jordan. Websites, phone apps, device firmware and the servers behind them: Flower JO, 4Tech, 4Tech-IoT, FAO Properties, Pumpkin Group and My Points.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://notnizar.github.io/">
 <meta property="og:title" content="Nizar — I build the whole thing">
 <meta property="og:description" content="Websites, phone apps, device firmware and the servers behind them. Selected work from Amman, Jordan.">
-<meta property="og:image" content="https://notnizar.github.io/assets/shots/bloom-landing.webp">
+<meta property="og:image" content="https://notnizar.github.io/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="I build the whole thing. Nizar, developer in Amman, Jordan, beside screens from Flower JO and the 4Tech-IoT app.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://notnizar.github.io/">
 <meta name="theme-color" content="#0d0e11">
+<meta name="color-scheme" content="dark">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d0e11'/%3E%3Cpath d='M9 23V9l14 14V9' fill='none' stroke='%23f3efe8' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="assets/shots/bloom-landing.webp" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>document.documentElement.className='js'</script>
 <style>
 :root{
   --bg:#0d0e11; --ac:#f3efe8; --fg:#f3efe8;
-  --mute:rgba(243,239,232,.64); --faint:rgba(243,239,232,.38); --line:rgba(243,239,232,.14);
-  --pad:clamp(18px,5vw,72px);
+  --mute:rgba(243,239,232,.68); --faint:rgba(243,239,232,.56); --line:rgba(243,239,232,.14);
+  --pad:clamp(18px,5vw,72px); --max:1680px; --g:max(var(--pad),calc(50% - var(--max)/2));
   --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;
   --serif:"Fraunces",Georgia,serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --ease:cubic-bezier(.2,.8,.2,1);
 }
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html.lock{overflow:hidden}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.55;
   transition:background-color .9s ease;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%;height:auto}
 a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ac);transition:color .9s ease;letter-spacing:-.01em}
 .mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
 :focus-visible{outline:2px solid var(--ac);outline-offset:4px;border-radius:4px}
@@ -38,7 +51,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;op
 
 /* nav */
 .nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;
-  padding:16px var(--pad);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  padding:14px var(--g);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   background:color-mix(in srgb,var(--bg) 72%,transparent);transition:background-color .9s ease;border-bottom:1px solid transparent}
 .nav.stuck{border-bottom-color:var(--line)}
 .brand{font-weight:800;font-size:19px;letter-spacing:-.03em;text-decoration:none;display:flex;align-items:center;gap:10px}
@@ -47,103 +60,209 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;op
 .nav nav a{text-decoration:none;font-size:15px;color:var(--mute);transition:color .2s}
 .nav nav a:hover{color:var(--fg)}
 .nav nav a.pill{color:var(--bg);background:var(--fg);padding:8px 14px;border-radius:99px;font-weight:600}
-@media(max-width:560px){.nav nav a:not(.pill):not(.keep){display:none}}
+@media(max-width:560px){.nav nav a:not(.pill){display:none}}
+
+/* project rail: where you are, on wide screens */
+.rail{position:fixed;left:max(14px,calc(50% - var(--max)/2 - 58px));top:50%;z-index:35;display:none;flex-direction:column;gap:2px;
+  transform:translateY(-50%);opacity:0;pointer-events:none;transition:opacity .4s}
+.in-work .rail{opacity:1;pointer-events:auto}
+.rail a{display:flex;align-items:center;gap:8px;padding:5px 4px;text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--faint);transition:color .3s}
+.rail a::before{content:"";width:8px;height:1px;background:currentColor;transition:width .35s var(--ease),background-color .3s}
+.rail a b{position:absolute;left:100%;margin-left:4px;white-space:nowrap;font:600 13px var(--sans);letter-spacing:-.01em;color:var(--fg);
+  background:rgba(13,14,17,.9);border:1px solid var(--line);padding:4px 10px;border-radius:99px;opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s;pointer-events:none}
+.rail a{position:relative}
+.rail a:hover,.rail a:focus-visible{color:var(--fg)}
+.rail a:hover b,.rail a:focus-visible b{opacity:1;transform:none}
+.rail a.on{color:var(--pc)}
+.rail a.on::before{width:18px}
+@media(min-width:1240px){.rail{display:flex}}
+
+/* shared device frames: sized from the box they sit in, so one set of rules fits every stage */
+.fit{container-type:size;position:relative;width:100%;aspect-ratio:3/2;display:grid;place-items:center}
+.br{--r:1.6;--bar:clamp(15px,6.2cqh,34px);position:relative;width:min(100cqw,calc((100cqh - var(--bar))*var(--r)));
+  border-radius:clamp(7px,1.9cqw,14px);overflow:hidden;background:#17181c;
+  box-shadow:0 0 0 1px rgba(255,255,255,.1),0 40px 80px -30px rgba(0,0,0,.85)}
+.br::before{content:attr(data-url);display:block;height:var(--bar);line-height:var(--bar);font-family:var(--mono);font-size:calc(var(--bar)*.32);
+  letter-spacing:.02em;color:rgba(243,239,232,.5);padding:0 1.2em 0 5.6em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  background:radial-gradient(circle at 1.5em 50%,#3d3f47 .38em,transparent .42em),radial-gradient(circle at 2.9em 50%,#3d3f47 .38em,transparent .42em),radial-gradient(circle at 4.3em 50%,#3d3f47 .38em,transparent .42em),#1d1e23}
+.br img{width:100%;aspect-ratio:var(--r);object-fit:cover;object-position:top}
+.ph{--pw:min(calc((100cqw - (var(--n,1) - 1)*3.2cqw)/var(--n,1)),calc(var(--h,92cqh)*.462));
+  width:var(--pw);max-width:none;aspect-ratio:.462;object-fit:cover;object-position:top;flex:none;
+  border:calc(var(--pw)*.032) solid #07080a;border-radius:calc(var(--pw)*.135);background:#07080a;
+  box-shadow:0 0 0 1px rgba(255,255,255,.14),0 34px 60px -24px rgba(0,0,0,.85)}
+.fit.phones{display:flex;align-items:center;justify-content:center;gap:3.2%}
+.phones .ph:nth-child(odd){translate:0 2.5cqh}
+.phones .ph:nth-child(even){translate:0 -2.5cqh}
+.phones .ph:only-child{translate:none}
+.fit.duo{display:block}
+.duo>*{--cw:min(100cqw,150cqh);--cx:calc((100cqw - var(--cw))/2)}
+.duo .br{position:absolute;left:var(--cx);top:0;width:min(calc(var(--cw)*.9),calc((88cqh - var(--bar))*var(--r)))}
+.duo .ph{position:absolute;right:var(--cx);bottom:0;--pw:min(calc(var(--cw)*.22),calc(78cqh*.462))}
+
+/* small pill buttons */
+.mini{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);
+  border:1px solid var(--line);border-radius:99px;padding:6px 11px;white-space:nowrap;transition:color .2s,border-color .2s,background-color .2s}
+.mini:hover{color:var(--fg);border-color:var(--fg)}
+.mini svg{width:10px;height:10px;flex:none}
 
 /* hero */
-.hero{min-height:100svh;padding:120px var(--pad) 40px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center;position:relative}
-.hero h1{font-size:clamp(52px,9.4vw,150px);line-height:.9;letter-spacing:-.055em;font-weight:800;margin:22px 0 30px}
+.hero{min-height:100svh;padding:clamp(88px,12vh,124px) var(--g) clamp(18px,3vh,30px);display:grid;
+  grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-rows:1fr auto;column-gap:clamp(28px,4vw,64px);row-gap:clamp(22px,4vh,44px);align-items:center}
+.hero h1{font-size:clamp(48px,7.3vw,126px);line-height:.9;letter-spacing:-.055em;font-weight:800;margin:20px 0 26px}
 .hero h1 em{font-weight:400;letter-spacing:-.04em}
-.hero p.lead{font-size:clamp(18px,1.6vw,22px);color:var(--mute);max-width:33em}
+.hero p.lead{font-size:clamp(17px,1.45vw,21px);color:var(--mute);max-width:31em}
 .hero p.lead b{color:var(--fg);font-weight:600}
-.meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:34px}
-.meta span{display:inline-flex;align-items:center;gap:8px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:28px}
+.meta-row span{display:inline-flex;align-items:center;gap:8px}
 .dot{width:7px;height:7px;border-radius:50%;background:#5fe08a;box-shadow:0 0 0 0 rgba(95,224,138,.6);animation:pulse 2.4s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(95,224,138,0)}100%{box-shadow:0 0 0 0 rgba(95,224,138,0)}}
-.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
 .btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:16px;padding:14px 22px;border-radius:99px;border:1px solid var(--line);transition:transform .2s,background-color .2s,border-color .2s}
 .btn:hover{transform:translateY(-2px);border-color:var(--fg)}
 .btn.solid{background:var(--fg);color:#0d0e11;border-color:var(--fg)}
 .btn svg{width:16px;height:16px}
 
-/* hero deck */
-.deck{position:relative;height:min(62vh,560px);perspective:1400px}
-.card{position:absolute;left:50%;top:50%;width:min(78%,520px);aspect-ratio:16/10;border-radius:14px;overflow:hidden;
-  box-shadow:0 30px 70px -20px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.1);
-  transform:translate(-50%,-50%) translate(var(--x),var(--y)) rotate(var(--r));transition:transform .7s cubic-bezier(.2,.8,.2,1);will-change:transform;background:#222}
-.card img{width:100%;height:100%;object-fit:cover;object-position:top}
-.card span{position:absolute;left:10px;bottom:10px;background:rgba(13,14,17,.82);backdrop-filter:blur(6px);padding:5px 10px;border-radius:99px;font-family:var(--mono);font-size:11px;letter-spacing:.06em}
-.deck:hover .card{transition-duration:.25s}
-.scrollcue{position:absolute;left:var(--pad);bottom:22px}
-@media(max-width:900px){
-  .hero{grid-template-columns:1fr;padding-top:104px;gap:10px}
-  .deck{height:300px;margin-top:20px}
-  .card{width:min(74%,380px)}
-  .scrollcue{display:none}
-}
+/* hero reel: one project at a time, the index underneath keeps time */
+.reel{position:relative;min-width:0}
+.reel::before{content:"";position:absolute;inset:-6% -4% 4%;background:radial-gradient(closest-side,var(--ac),transparent 72%);opacity:.13;filter:blur(44px);transition:background .9s ease;pointer-events:none}
+.reel-stage{position:relative;aspect-ratio:3/2;max-height:min(56vh,580px);width:100%}
+.rs{position:absolute;inset:0;display:block;opacity:0;visibility:hidden;transform:translateY(10px) scale(.985);
+  transition:opacity .55s ease,transform .9s var(--ease),visibility 0s .55s}
+.rs.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.rs .fit{position:absolute;inset:0;aspect-ratio:auto;height:100%}
+.reel-foot{position:relative;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:clamp(10px,1.6vh,16px);min-height:28px}
+.js .reel-foot .mini{display:inline-flex}.reel-foot .mini{display:none}
 
-/* index */
-section{padding:clamp(70px,10vw,140px) var(--pad)}
+.idx{grid-column:1/-1;list-style:none;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(10px,1.6vw,26px)}
+.idx a{position:relative;display:grid;gap:3px;padding:14px 0 4px;text-decoration:none;color:var(--mute);transition:color .3s}
+.idx .bar{position:absolute;left:0;right:0;top:0;height:2px;background:var(--line);border-radius:2px;overflow:hidden}
+.idx .bar b{position:absolute;inset:0;background:var(--pc);transform:scaleX(0);transform-origin:0 50%}
+.idx .n{color:var(--faint);transition:color .3s}
+.idx .t{font-weight:700;font-size:clamp(16px,1.45vw,21px);letter-spacing:-.035em;line-height:1.15}
+.idx .k{font-size:10.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.idx a:hover,.idx a.on{color:var(--fg)}
+.idx a:hover .n,.idx a.on .n{color:var(--pc)}
+.idx a.on .bar b{animation:fill 5.5s linear forwards}
+.hold .idx a.on .bar b{animation-play-state:paused}
+html:not(.js) .idx a.on .bar b{animation:none;transform:none}
+@keyframes fill{to{transform:scaleX(1)}}
+
+.up{animation:up .9s var(--ease) both}
+.up.d1{animation-delay:.07s}.up.d2{animation-delay:.14s}.up.d3{animation-delay:.21s}
+@keyframes up{from{opacity:0;transform:translateY(22px)}}
+
+@media(max-width:960px){
+  .hero{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;padding-top:100px;row-gap:26px}
+  .hero h1{font-size:clamp(52px,11.5vw,104px)}
+  .reel-stage{max-height:none}
+  .idx{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:18px}
+}
+@media(max-width:520px){.idx{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* sections */
+.sec{padding:clamp(70px,10vw,140px) var(--g)}
 .sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:6px}
 .sec-head h2{font-size:clamp(28px,3.6vw,48px);letter-spacing:-.04em;line-height:1;font-weight:700}
-.rows{list-style:none;padding:0}
-.rows a{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:clamp(16px,2.2vw,28px) 0;border-bottom:1px solid var(--line);text-decoration:none;position:relative;transition:padding .35s cubic-bezier(.2,.8,.2,1),color .3s}
-.rows .t{font-size:clamp(30px,6vw,92px);font-weight:800;letter-spacing:-.05em;line-height:1}
-.rows .k{text-align:right}
-.rows:hover a{color:var(--faint)}
-.rows a:hover,.rows a:focus-visible{color:var(--fg);padding-left:18px}
-.rows a:hover .t{color:var(--c)}
-@media(max-width:700px){.rows a{grid-template-columns:34px minmax(0,1fr)}.rows .k{grid-column:2;text-align:left}}
-.peek{position:fixed;left:0;top:0;width:340px;aspect-ratio:16/10;border-radius:12px;overflow:hidden;pointer-events:none;z-index:30;opacity:0;
-  transform:translate(-999px,-999px);transition:opacity .25s;box-shadow:0 30px 60px -15px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.12)}
-.peek.on{opacity:1}
-.peek img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .25s}
-.peek img.on{opacity:1}
-@media(hover:none){.peek{display:none}}
+#work>.sec-head{margin:0 var(--g);padding-top:clamp(64px,9vw,120px);border-bottom:0;padding-bottom:clamp(8px,1.6vw,20px)}
 
-/* project */
-.proj{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,80px);align-items:center;min-height:100svh;position:relative}
-.proj:nth-of-type(even) .copy{order:2}
-.proj .num{font-family:var(--serif);font-style:italic;font-size:clamp(70px,9vw,140px);line-height:.8;color:var(--ac);opacity:.9;transition:color .9s ease;margin-bottom:16px}
-.proj h3{font-size:clamp(38px,5vw,76px);letter-spacing:-.05em;line-height:.95;font-weight:800;margin:14px 0 8px}
-.proj .what{font-size:clamp(18px,1.5vw,21px);color:var(--mute);max-width:30em;margin-top:16px}
-.proj ul{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:14px;max-width:34em}
-.proj li{padding-left:22px;position:relative;color:var(--mute);font-size:16px}
-.proj li b{color:var(--fg);font-weight:600}
-.proj li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:2px;background:var(--ac);transition:background-color .9s ease}
-.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:26px}
+/* a project: its screens on the left, the claims they back up on the right */
+.proj{--pc:var(--fg);display:grid;grid-template-columns:minmax(0,1.72fr) minmax(0,1fr);column-gap:clamp(28px,4.2vw,68px);row-gap:clamp(22px,3vw,40px);
+  align-items:start;padding:clamp(22px,3vw,40px) var(--g) clamp(50px,7vw,100px);scroll-margin-top:44px}
+.proj>header{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;column-gap:clamp(12px,1.8vw,26px);row-gap:10px;align-items:baseline;
+  border-top:1px solid var(--line);padding-top:clamp(20px,2.6vw,34px)}
+.num{font:italic 400 clamp(40px,5vw,78px)/.85 var(--serif);color:var(--pc);letter-spacing:-.02em}
+.proj h3{font-size:clamp(36px,5vw,78px);letter-spacing:-.05em;line-height:.95;font-weight:800}
+.proj .meta{text-align:right}
+.proj .what{grid-column:2/-1;font-size:clamp(17px,1.45vw,21px);color:var(--mute);max-width:36em}
+
+.viewer{container:viewer/inline-size;position:relative;min-width:0;border:1px solid var(--line);border-radius:clamp(14px,1.8vw,24px);overflow:hidden;scroll-margin-top:84px;
+  background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--pc) 15%,transparent),transparent 62%),rgba(255,255,255,.028)}
+.vbar{display:flex;align-items:stretch;border-bottom:1px solid var(--line);min-height:48px}
+.tabs{display:flex;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;padding:0 clamp(4px,1vw,12px);
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{position:relative;flex:none;padding:0 clamp(9px,1vw,13px);font-size:14px;font-weight:600;letter-spacing:-.01em;color:var(--mute);white-space:nowrap;transition:color .2s}
+.tab::after{content:"";position:absolute;left:clamp(9px,1vw,13px);right:clamp(9px,1vw,13px);bottom:-1px;height:2px;background:var(--pc);transform:scaleX(0);transition:transform .35s var(--ease)}
+.tab:hover{color:var(--fg)}
+.tab[aria-current="true"]{color:var(--fg)}
+.tab[aria-current="true"]::after{transform:none}
+.tab:focus-visible{outline-offset:-4px}
+.vctl{display:flex;align-items:center;gap:6px;padding:0 clamp(8px,1vw,12px) 0 6px;flex:none}
+.vctl .cnt{margin-right:4px;font-size:11px;white-space:nowrap}
+.ar{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--mute);transition:color .2s,border-color .2s,opacity .2s}
+.ar svg{width:13px;height:13px}
+.ar:hover{color:var(--fg);border-color:var(--fg)}
+.ar[aria-disabled="true"]{opacity:.3;cursor:default;border-color:var(--line);color:var(--mute)}
+@container viewer (max-width:760px){.vctl .cnt{display:none}}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain}
+.js .track{scrollbar-width:none}
+.js .track::-webkit-scrollbar{display:none}
+.track:focus-visible{outline-offset:-3px;border-radius:0}
+.slide{flex:0 0 100%;min-width:0;scroll-snap-align:center;scroll-snap-stop:always;display:grid;align-content:start;gap:clamp(10px,1.5vw,18px);
+  padding:clamp(10px,2.3vw,30px) clamp(10px,2.3vw,30px) clamp(12px,1.6vw,20px)}
+.slide .fit{max-height:68vh}
+.slide img{cursor:zoom-in}
+img[data-src]{color:transparent}
+html:not(.js) .slide~.slide{display:none}
+.slide figcaption{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;color:var(--mute);font-size:clamp(13.5px,1.05vw,15px);line-height:1.45}
+.slide figcaption span{max-width:60ch}
+.live-btn{display:none;color:var(--pc);border-color:color-mix(in srgb,var(--pc) 45%,transparent)}
+.live-btn:hover{color:var(--pc);border-color:var(--pc);background:color-mix(in srgb,var(--pc) 12%,transparent)}
+@media(hover:hover) and (min-width:1041px){.js .live-btn{display:inline-flex}}
+.br iframe{position:absolute;left:0;top:var(--bar);width:1400px;height:875px;border:0;transform-origin:0 0;background:#f6f1e8}
+.br.live img{visibility:hidden}
+.duo.live .ph{opacity:0;pointer-events:none}
+.duo .ph{transition:opacity .3s}
+
+.notes{min-width:0}
+.pts{list-style:none;padding:0;display:grid;gap:4px;margin:-6px -12px 0}
+.pts li{position:relative;padding:12px 12px 12px 34px;border-radius:12px;color:var(--mute);font-size:clamp(16px,1vw,18px);transition:background-color .3s,color .3s}
+.pts li::before{content:"";position:absolute;left:12px;top:1.48em;width:10px;height:2px;background:var(--pc);transition:width .3s var(--ease)}
+.pts b,.pts .pt{color:var(--fg);font-weight:600}
+.pts .pt{display:inline;text-align:left;cursor:inherit}
+.js .pts li.has{cursor:pointer}
+.js .pts li.has .pt{cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--pc) 55%,transparent);text-decoration-thickness:1.5px;text-underline-offset:4px}
+.js .pts li.has::after{content:"Show it  →";display:block;margin-top:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--pc);opacity:.85;white-space:pre}
+.js .pts li.has:hover{background:rgba(255,255,255,.04)}
+.js .pts li.on{background:color-mix(in srgb,var(--pc) 11%,transparent);color:var(--fg)}
+.js .pts li.on::before{width:14px}
+.js .pts li.on::after{content:"●  On screen";opacity:1}
+.ev{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--pc);text-decoration:none;white-space:nowrap;border-bottom:1px solid color-mix(in srgb,var(--pc) 45%,transparent)}
+.ev:hover{border-bottom-color:var(--pc)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:22px}
 .chips span{font-family:var(--mono);font-size:11.5px;padding:5px 10px;border:1px solid var(--line);border-radius:99px;color:var(--mute)}
-.links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:28px}
-.links a{font-weight:600;text-decoration:none;border-bottom:2px solid var(--ac);padding-bottom:2px;transition:border-color .9s ease,opacity .2s}
-.links a:hover{opacity:.7}
-.links a.quiet{border-bottom-color:var(--line);font-weight:500;color:var(--mute)}
+.links{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:24px}
+.links a{font-weight:600;text-decoration:none;transition:opacity .2s,transform .2s}
+.links a.go{display:inline-flex;align-items:center;gap:8px;background:var(--pc);color:#0d0e11;padding:11px 18px;border-radius:99px}
+.links a.go:hover{transform:translateY(-2px)}
+.links a.quiet{border-bottom:2px solid var(--line);padding-bottom:2px;font-weight:500;color:var(--mute)}
+.links a.quiet:hover{color:var(--fg);border-bottom-color:var(--pc)}
 
-.stage{position:relative;padding:0 0 9% 0}
-.browser{border-radius:14px;overflow:hidden;background:#17181c;box-shadow:0 50px 100px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.1);transform:rotate(-1.2deg);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-.browser .bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:#1d1e23}
-.browser .bar i{width:9px;height:9px;border-radius:50%;background:#3a3c44}
-.browser .bar span{margin-left:10px;font-family:var(--mono);font-size:11px;color:rgba(243,239,232,.5);background:#141519;padding:4px 12px;border-radius:99px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.phone{position:absolute;right:-1%;bottom:0;width:25%;min-width:104px;border-radius:clamp(14px,2vw,26px);overflow:hidden;border:clamp(4px,.5vw,7px) solid #08090b;background:#08090b;
-  box-shadow:0 40px 70px -20px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.14);transform:rotate(3deg);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-.phone img{border-radius:clamp(10px,1.5vw,19px);aspect-ratio:600/1298;object-fit:cover;object-position:top;width:100%}
-.proj:nth-of-type(even) .browser{transform:rotate(1.2deg)}
-.proj:nth-of-type(even) .phone{transform:rotate(-3deg)}
-.stage:hover .browser,.stage:hover .phone{transform:rotate(0)}
-.glow{position:absolute;inset:-12% -8%;background:radial-gradient(closest-side,var(--ac),transparent 70%);opacity:.16;filter:blur(40px);z-index:-1;transition:background .9s ease}
-
-.trio{display:flex;justify-content:center;align-items:flex-end;padding:4% 0}
-.trio .phone{position:relative;right:auto;left:auto;bottom:auto;width:31%;max-width:250px}
-.trio .phone:nth-child(2){transform:rotate(-7deg) translateY(6%);margin-right:-5%;z-index:1}
-.trio .phone:nth-child(3){transform:none;z-index:2;width:34%;max-width:275px}
-.trio .phone:nth-child(4){transform:rotate(7deg) translateY(6%);margin-left:-5%;z-index:1}
-.trio .phone img{aspect-ratio:393/852}
-.stage.trio:hover .phone:nth-child(2){transform:rotate(-10deg) translate(-8%,4%)}
-.stage.trio:hover .phone:nth-child(4){transform:rotate(10deg) translate(8%,4%)}
-
-@media(max-width:900px){
-  .proj{grid-template-columns:1fr;min-height:0}
-  .proj:nth-of-type(even) .copy{order:0}
-  .stage{margin-top:10px}
+@media(min-width:1041px){.notes{position:sticky;top:92px}}
+@media(max-width:1040px){
+  .proj{grid-template-columns:minmax(0,1fr)}
+  .pts{margin-inline:-8px}
 }
+@media(max-width:760px){
+  .proj>header{grid-template-columns:auto minmax(0,1fr)}
+  .proj .meta,.proj .what{grid-column:1/-1;text-align:left}
+}
+
+/* full-size view */
+.lb{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:rgba(9,10,12,.975);color:var(--fg);overflow:hidden}
+.lb::backdrop{background:rgba(0,0,0,.7)}
+.lb-top{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px clamp(12px,2.4vw,26px)}
+.lb-top p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--fg)}
+.lb-ctl{display:flex;align-items:center;gap:8px;flex:none}
+.lb-ctl .mono{margin-right:6px}
+.lb-track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior:contain}
+.lb-track::-webkit-scrollbar{display:none}
+.lb-track figure{flex:0 0 100%;min-width:0;scroll-snap-align:center;scroll-snap-stop:always;display:grid;grid-template-rows:minmax(0,1fr) auto;justify-items:center;align-items:center;gap:14px;
+  padding:62px clamp(12px,5vw,90px) 20px;cursor:zoom-out}
+.lb-track img{max-width:100%;max-height:100%;width:auto;height:auto;border-radius:10px;box-shadow:0 0 0 1px rgba(255,255,255,.12),0 40px 90px -30px #000;cursor:default}
+.lb-track figure.tall img{border-radius:22px}
+.lb-track figcaption{color:var(--mute);font-size:15px;text-align:center;max-width:64ch;min-height:1.5em;cursor:default}
+@media(max-width:700px){.lb-ctl .ar.nav-ar{display:none}}
 
 /* fixes */
 .ledger{display:grid;margin-top:10px}
@@ -164,19 +283,20 @@ section{padding:clamp(70px,10vw,140px) var(--pad)}
 .skills p{color:var(--mute);font-size:15.5px}
 @media(max-width:800px){.about{grid-template-columns:1fr}}
 
-footer{padding:clamp(70px,10vw,130px) var(--pad) 34px}
+footer{padding:clamp(70px,10vw,130px) var(--g) 34px}
 footer h2{font-size:clamp(46px,10.5vw,170px);line-height:.88;letter-spacing:-.055em;font-weight:800}
-footer h2 a{text-decoration:none;display:inline-block;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+footer h2 a{text-decoration:none;display:inline-block;transition:transform .4s var(--ease)}
 footer h2 a:hover{transform:translateX(14px)}
 .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:60px;padding-top:18px;border-top:1px solid var(--line)}
 
 /* reveal */
-.anim .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.anim .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .9s var(--ease)}
 .anim .rv.in{opacity:1;transform:none}
-.anim .rv.d1{transition-delay:.08s}.anim .rv.d2{transition-delay:.16s}.anim .rv.d3{transition-delay:.24s}
+.anim .rv.d1{transition-delay:.08s}.anim .rv.d2{transition-delay:.16s}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before{animation:none!important;transition:none!important}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .idx a.on .bar b{transform:none}
 }
 </style>
 </head>
@@ -184,7 +304,7 @@ footer h2 a:hover{transform:translateX(14px)}
 
 <header class="nav" id="nav">
   <a class="brand" href="#top"><i></i>Nizar</a>
-  <nav>
+  <nav aria-label="Sections">
     <a href="#work">Work</a>
     <a href="#fixes">Fixes</a>
     <a href="#about">About</a>
@@ -192,173 +312,410 @@ footer h2 a:hover{transform:translateX(14px)}
   </nav>
 </header>
 
+<nav class="rail" id="rail" aria-label="Projects">
+  <a href="#bloom" style="--pc:#f0764f">01<b>Flower JO</b></a>
+  <a href="#fourtech" style="--pc:#6fe6bd">02<b>4Tech website</b></a>
+  <a href="#iot" style="--pc:#5cc8ff">03<b>4Tech-IoT</b></a>
+  <a href="#fao" style="--pc:#e2bd77">04<b>FAO Properties</b></a>
+  <a href="#pumpkin" style="--pc:#ff8a2b">05<b>Pumpkin Group</b></a>
+  <a href="#loyalty" style="--pc:#d7e36a">06<b>My Points</b></a>
+</nav>
+
 <main id="top">
 
-<div class="hero" data-bg="#0d0e11" data-ac="#f3efe8">
-  <div>
-    <p class="mono rv">Developer · Amman, Jordan</p>
-    <h1 class="rv d1">I build the <em>whole</em> thing.</h1>
-    <p class="lead rv d2">I'm Nizar. I take a product from the first sketch to a server that stays up: <b>the website, the phone app, the firmware on the device and the backend behind them.</b> Often in English and Arabic.</p>
-    <div class="cta rv d3">
+<div class="hero" id="hero" data-bg="#0d0e11" data-ac="#f3efe8">
+  <div class="copy">
+    <p class="mono up">Developer · Amman, Jordan</p>
+    <h1 class="up d1">I build the <em>whole</em> thing.</h1>
+    <p class="lead up d2">I'm Nizar. I take a product from the first sketch to a server that stays up: <b>the website, the phone app, the firmware on the device and the backend behind them.</b> Often in English and Arabic.</p>
+    <div class="cta up d3">
       <a class="btn solid" href="#work">See the work
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v12M3 9l5 5 5-5"/></svg></a>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v12M3 9l5 5 5-5"/></svg></a>
       <a class="btn" href="https://github.com/notnizar" rel="noopener">github.com/notnizar</a>
     </div>
-    <div class="meta rv d3">
+    <div class="meta-row up d3">
       <span class="mono"><i class="dot"></i>Amman <span id="clock">--:--</span></span>
       <span class="mono">BSc Artificial Intelligence, ZUJ</span>
     </div>
   </div>
-  <div class="deck rv d2" id="deck" aria-hidden="true">
-    <div class="card" style="--x:-21%;--y:-17%;--r:-9deg"><img src="assets/shots/pumpkin-desktop.webp" alt="" width="1400" height="875"><span>Pumpkin</span></div>
-    <div class="card" style="--x:19%;--y:-21%;--r:7deg"><img src="assets/shots/fao-desktop.webp" alt="" width="1400" height="875"><span>FAO Properties</span></div>
-    <div class="card" style="--x:-15%;--y:19%;--r:5deg"><img src="assets/shots/4tech-home.webp" alt="" width="1400" height="875"><span>4Tech</span></div>
-    <div class="card" style="--x:17%;--y:17%;--r:-6deg"><img src="assets/shots/bloom-admin.webp" alt="" width="1400" height="875"><span>Flower JO admin</span></div>
-    <div class="card" style="--x:0%;--y:0%;--r:-2deg"><img src="assets/shots/bloom-landing.webp" alt="" width="1400" height="875"><span>Flower JO</span></div>
+
+  <div class="reel up d2" id="reel">
+    <div class="reel-stage" role="group" aria-roledescription="carousel" aria-label="Selected work, in pictures">
+      <a class="rs on" href="#bloom" data-name="Flower JO" data-ac="#f0764f" aria-label="Flower JO: go to the project">
+        <div class="fit duo">
+          <div class="br" data-url="flower-jo"><img src="assets/shots/bloom-landing.webp" alt="" width="1400" height="875" fetchpriority="high"></div>
+          <img class="ph" src="assets/shots/bloom-arabic.webp" alt="" width="780" height="1688">
+        </div>
+      </a>
+      <a class="rs" href="#fourtech" data-name="4Tech website" data-ac="#6fe6bd" aria-label="4Tech website: go to the project">
+        <div class="fit duo">
+          <div class="br" data-url="4thtechjo.com"><img data-src="assets/shots/4tech-home.webp" alt="" width="1400" height="875"></div>
+          <img class="ph" data-src="assets/shots/4tech-phone.webp" alt="" width="600" height="1298">
+        </div>
+      </a>
+      <a class="rs" href="#iot" data-name="4Tech-IoT" data-ac="#5cc8ff" aria-label="4Tech-IoT: go to the project">
+        <div class="fit phones" style="--n:3">
+          <img class="ph" data-src="assets/shots/iot-light.webp" alt="" width="393" height="852">
+          <img class="ph" data-src="assets/shots/iot-home.webp" alt="" width="393" height="852">
+          <img class="ph" data-src="assets/shots/iot-tank.webp" alt="" width="393" height="852">
+        </div>
+      </a>
+      <a class="rs" href="#fao" data-name="FAO Properties" data-ac="#e2bd77" aria-label="FAO Properties: go to the project">
+        <div class="fit duo">
+          <div class="br" data-url="www.faoproperties.com/sr"><img data-src="assets/shots/fao-desktop.webp" alt="" width="1400" height="875"></div>
+          <img class="ph" data-src="assets/shots/fao-phone.webp" alt="" width="600" height="1298">
+        </div>
+      </a>
+      <a class="rs" href="#pumpkin" data-name="Pumpkin Group" data-ac="#ff8a2b" aria-label="Pumpkin Group: go to the project">
+        <div class="fit duo">
+          <div class="br" data-url="pumpkin-website"><img data-src="assets/shots/pumpkin-desktop.webp" alt="" width="1400" height="875"></div>
+          <img class="ph" data-src="assets/shots/pumpkin-phone.webp" alt="" width="600" height="1298">
+        </div>
+      </a>
+      <a class="rs" href="#loyalty" data-name="My Points" data-ac="#d7e36a" aria-label="My Points: go to the project">
+        <div class="fit duo">
+          <div class="br" data-url="merchant site · demo shop"><img data-src="assets/shots/loyalty-home.webp" alt="" width="1440" height="900"></div>
+          <img class="ph" data-src="assets/shots/loyalty-phone.webp" alt="" width="390" height="844">
+        </div>
+      </a>
+    </div>
+    <div class="reel-foot">
+      <span class="mono" id="reelNow">01 / 06 · Flower JO</span>
+      <button type="button" class="mini" id="reelPause" aria-pressed="false"><svg viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="M1.5 1h2.4v8H1.5zM6.1 1h2.4v8H6.1z"/></svg><span>Pause</span></button>
+    </div>
   </div>
-  <p class="mono scrollcue">Scroll ↓</p>
+
+  <ol class="idx up d3" id="idx">
+    <li><a href="#bloom" class="on" style="--pc:#f0764f"><i class="bar"><b></b></i><span class="mono n">01</span><span class="t">Flower JO</span><span class="mono k">Multi-tenant stores</span></a></li>
+    <li><a href="#fourtech" style="--pc:#6fe6bd"><i class="bar"><b></b></i><span class="mono n">02</span><span class="t">4Tech website</span><span class="mono k">Site · AI quotes</span></a></li>
+    <li><a href="#iot" style="--pc:#5cc8ff"><i class="bar"><b></b></i><span class="mono n">03</span><span class="t">4Tech-IoT</span><span class="mono k">App · firmware · server</span></a></li>
+    <li><a href="#fao" style="--pc:#e2bd77"><i class="bar"><b></b></i><span class="mono n">04</span><span class="t">FAO Properties</span><span class="mono k">SEO-first site · CMS</span></a></li>
+    <li><a href="#pumpkin" style="--pc:#ff8a2b"><i class="bar"><b></b></i><span class="mono n">05</span><span class="t">Pumpkin Group</span><span class="mono k">Agency site · 3D</span></a></li>
+    <li><a href="#loyalty" style="--pc:#d7e36a"><i class="bar"><b></b></i><span class="mono n">06</span><span class="t">My Points</span><span class="mono k">Loyalty platform</span></a></li>
+  </ol>
 </div>
 
-<section id="work" data-bg="#0d0e11" data-ac="#f3efe8">
+<section id="work">
   <div class="sec-head rv"><h2>Selected work</h2><span class="mono">06 projects · 2026</span></div>
-  <ul class="rows" id="rows">
-    <li><a href="#bloom" style="--c:#f0764f" data-img="assets/shots/bloom-landing.webp"><span class="mono">01</span><span class="t">Flower JO</span><span class="mono k">Multi-tenant stores</span></a></li>
-    <li><a href="#fourtech" style="--c:#6fe6bd" data-img="assets/shots/4tech-home.webp"><span class="mono">02</span><span class="t">4Tech website</span><span class="mono k">Site · AI quotes</span></a></li>
-    <li><a href="#iot" style="--c:#5cc8ff" data-img="assets/shots/4tech-print.webp" data-alt="iot"><span class="mono">03</span><span class="t">4Tech-IoT</span><span class="mono k">App · firmware · server</span></a></li>
-    <li><a href="#fao" style="--c:#e2bd77" data-img="assets/shots/fao-desktop.webp"><span class="mono">04</span><span class="t">FAO Properties</span><span class="mono k">SEO-first site · CMS</span></a></li>
-    <li><a href="#pumpkin" style="--c:#ff8a2b" data-img="assets/shots/pumpkin-desktop.webp"><span class="mono">05</span><span class="t">Pumpkin Group</span><span class="mono k">Agency site · 3D</span></a></li>
-    <li><a href="#loyalty" style="--c:#d7e36a" data-img="assets/shots/loyalty-home.webp"><span class="mono">06</span><span class="t">My Points</span><span class="mono k">Loyalty platform</span></a></li>
-  </ul>
+
+  <article class="proj" id="bloom" data-name="Flower JO" data-bg="#1b0e10" data-ac="#f0764f" style="--pc:#f0764f">
+    <header class="rv">
+      <span class="num" aria-hidden="true">01</span>
+      <h3>Flower JO</h3>
+      <p class="mono meta">Product · 2026 · design, code, hosting</p>
+      <p class="what">Online stores for flower shops that sell on WhatsApp and Instagram. One codebase and one database serve every shop.</p>
+    </header>
+    <div class="viewer rv d1">
+      <div class="track" tabindex="0" role="group" aria-label="Flower JO screens">
+        <figure class="slide" data-label="Landing">
+          <div class="fit duo">
+            <div class="br" data-url="flower-jo · landing"><img src="assets/shots/bloom-landing.webp" alt="The Flower JO landing page, headed Orders, not chats" width="1400" height="875" loading="lazy" decoding="async"></div>
+            <img class="ph" src="assets/shots/bloom-arabic.webp" alt="A shop's home page in Arabic, laid out right to left" width="780" height="1688" loading="lazy" decoding="async">
+          </div>
+          <figcaption><span>The landing page that signs shops up, and a shop's own storefront in Arabic.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Looks" data-pt="c">
+          <div class="fit phones" style="--n:3">
+            <img class="ph" data-src="assets/shots/bloom-phone.webp" alt="The Editorial look: a printed lookbook" width="600" height="1298" decoding="async">
+            <img class="ph" data-src="assets/shots/bloom-market.webp" alt="The Market look: practical, opens on promotions" width="780" height="1688" decoding="async">
+            <img class="ph" data-src="assets/shots/bloom-posy.webp" alt="The Posy look: a soft pastel gift boutique" width="780" height="1688" decoding="async">
+          </div>
+          <figcaption><span>One shop in its three looks: Editorial, Market and Posy. Products, cart and checkout are shared.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Ordering" data-pt="b">
+          <div class="fit phones" style="--n:3">
+            <img class="ph" data-src="assets/shots/bloom-catalog.webp" alt="The catalogue: every arrangement, with search" width="780" height="1688" decoding="async">
+            <img class="ph" data-src="assets/shots/bloom-product.webp" alt="A product page, with sizes" width="780" height="1688" decoding="async">
+            <img class="ph" data-src="assets/shots/bloom-builder.webp" alt="The bouquet builder: pick a base, then add stems" width="600" height="1298" decoding="async">
+          </div>
+          <figcaption><span>Browse the catalogue, pick a size, or build a bouquet stem by stem with a live price.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Checkout" data-pt="b">
+          <div class="fit phones" style="--n:3">
+            <img class="ph" data-src="assets/shots/bloom-checkout.webp" alt="Checkout: delivery or pickup, then the recipient and address" width="780" height="1688" decoding="async">
+            <img class="ph" data-src="assets/shots/bloom-status.webp" alt="The buyer's order status page: on its way" width="780" height="1688" decoding="async">
+            <img class="ph" data-src="assets/shots/bloom-gift.webp" alt="The recipient's own page: Mona, this is for you" width="780" height="1688" decoding="async">
+          </div>
+          <figcaption><span>A delivery slot the shop can actually make, a status link for the buyer, and a page of its own for whoever receives the flowers.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Orders" data-pt="c">
+          <div class="fit"><div class="br" data-url="petal · shop dashboard"><img data-src="assets/shots/bloom-admin.webp" alt="The owner's dashboard: the orders board" width="1400" height="875" decoding="async"></div></div>
+          <figcaption><span>The owner's dashboard. A new order arrives with the card message exactly as the buyer typed it.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Ticket">
+          <div class="fit"><div class="br" data-url="petal · order #1005"><img data-src="assets/shots/bloom-ticket.webp" alt="The printable order ticket, with the gift card's QR code" width="1600" height="1000" decoding="async"></div></div>
+          <figcaption><span>A printable A5 ticket for every order, with the QR code that opens the gift's own page.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Stock">
+          <div class="fit"><div class="br" data-url="petal · today's stock"><img data-src="assets/shots/bloom-stock.webp" alt="Today's stock: the stems in the builder, with counts" width="1600" height="1000" decoding="async"></div></div>
+          <figcaption><span>Today's stock. A stem at zero leaves the builder at once.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Phone" data-pt="c">
+          <div class="fit phones" style="--n:2">
+            <img class="ph" data-src="assets/shots/bloom-orders-phone.webp" alt="Orders on the owner's phone" width="780" height="1688" decoding="async">
+            <img class="ph" data-src="assets/shots/bloom-driver-phone.webp" alt="The driver's view: today's deliveries in slot order" width="780" height="1688" decoding="async">
+          </div>
+          <figcaption><span>The same dashboard on the owner's phone, and the driver's stops in slot order.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="notes rv d2">
+      <ul class="pts">
+        <li><b>A new shop is a database row and a DNS record.</b> The shop is read from the request's host, and Postgres row-level security enforces the boundary a second time. <a class="ev" href="https://github.com/notnizar/flower-jo#architecture" rel="noopener">Diagram ↗</a></li>
+        <li data-pt="b"><button type="button" class="pt">A bouquet builder with a live price,</button> delivery slots the shop can actually make, and a private page for whoever receives the flowers.</li>
+        <li data-pt="c"><button type="button" class="pt">Three storefront looks, English and Arabic,</button> and an owner dashboard that works from a phone.</li>
+      </ul>
+      <div class="chips"><span>Next.js 16</span><span>React 19</span><span>PostgreSQL 17</span><span>Prisma 7</span><span>Tailwind 4</span><span>Docker</span></div>
+      <div class="links"><a class="go" href="https://petal.164.92.163.208.sslip.io/" rel="noopener">Live demo store ↗</a><a class="quiet" href="https://github.com/notnizar/flower-jo" rel="noopener">Case study on GitHub ↗</a></div>
+    </div>
+  </article>
+
+  <article class="proj" id="fourtech" data-name="4Tech website" data-bg="#0a1c19" data-ac="#6fe6bd" style="--pc:#6fe6bd">
+    <header class="rv">
+      <span class="num" aria-hidden="true">02</span>
+      <h3>4Tech website</h3>
+      <p class="mono meta">Client · Sep–Nov 2026 · everything</p>
+      <p class="what">A company site that also does work, for an Amman company that teaches robotics, builds smart devices and runs a 3D printing service.</p>
+    </header>
+    <div class="viewer rv d1">
+      <div class="track" tabindex="0" role="group" aria-label="4Tech website screens">
+        <figure class="slide" data-label="Home">
+          <div class="fit duo">
+            <div class="br" data-url="4thtechjo.com"><img src="assets/shots/4tech-home.webp" alt="The 4Tech home page: Ideas, built and printed" width="1400" height="875" loading="lazy" decoding="async"></div>
+            <img class="ph" src="assets/shots/4tech-phone.webp" alt="The home page in Arabic on a phone" width="600" height="1298" loading="lazy" decoding="async">
+          </div>
+          <figcaption><span>The home page, in English on a desktop and in Arabic on a phone.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Print Hub" data-pt="a">
+          <div class="fit"><div class="br" data-url="4thtechjo.com/3d-print-hub"><img data-src="assets/shots/4tech-print.webp" alt="The 3D Print Hub: drop a model file for an instant price" width="1400" height="875" decoding="async"></div></div>
+          <figcaption><span>Drop an STL or OBJ file and get a price. Only the numbers leave the browser: volume, size and triangle count.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Assistant" data-pt="b">
+          <div class="fit"><div class="br" data-url="4thtechjo.com/custom-solutions"><img data-src="assets/shots/4tech-custom.webp" alt="Custom Solutions: describe a project and get a first estimate" width="1440" height="900" decoding="async"></div></div>
+          <figcaption><span>Describe an idea in your own words. The assistant asks what matters for the price, then makes a first offer.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Lamps">
+          <div class="fit"><div class="br" data-url="4thtechjo.com/lamps"><img data-src="assets/shots/4tech-lamps.webp" alt="The lamps page, with a lamp drawn in the browser" width="1440" height="900" decoding="async"></div></div>
+          <figcaption><span>4Tech's own lamps. Each is a recipe, not an image: the site draws it in WebGL and the same recipe exports the printer's file.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Arabic">
+          <div class="fit"><div class="br" data-url="4thtechjo.com/ar"><img data-src="assets/shots/4tech-ar.webp" alt="The home page in Arabic, right to left" width="1440" height="900" decoding="async"></div></div>
+          <figcaption><span>Every page exists in Arabic, laid out right to left.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Orders" data-pt="c">
+          <div class="fit"><div class="br" data-url="staff panel · orders"><img data-src="assets/shots/4tech-admin-orders.webp" alt="The staff admin panel: orders, with sample data" width="1440" height="900" decoding="async"></div></div>
+          <figcaption><span>The staff panel, shown with sample data. It offers only the next steps that are valid for an order.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Pricing" data-pt="b">
+          <div class="fit"><div class="br" data-url="staff panel · pricing"><img data-src="assets/shots/4tech-admin-pricing.webp" alt="The staff pricing screen: material costs, markup and the AI price guide" width="1440" height="900" decoding="async"></div></div>
+          <figcaption><span>Staff set every number behind a price. The assistant quotes from the guide on this screen.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Phone">
+          <div class="fit phones" style="--n:2">
+            <img class="ph" data-src="assets/shots/4tech-phone-en.webp" alt="The home page on a phone, in English" width="780" height="1688" decoding="async">
+            <img class="ph" data-src="assets/shots/4tech-admin-phone.webp" alt="Orders in the staff panel on a phone" width="780" height="1688" decoding="async">
+          </div>
+          <figcaption><span>The site in English on a phone, and the staff panel, where tables become cards.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="notes rv d2">
+      <ul class="pts">
+        <li data-pt="a"><button type="button" class="pt">Drop a 3D model, get a price at once.</button> The browser measures the model in a Web Worker and draws it in WebGL written without a library. The server never touches the file.</li>
+        <li data-pt="b"><button type="button" class="pt">An AI assistant that makes a first price offer</button> through a checked tool call, from a price guide the staff edit.</li>
+        <li data-pt="c"><button type="button" class="pt">A staff admin panel and 240 backend tests,</button> all sized to run on one 2 GB server.</li>
+      </ul>
+      <div class="chips"><span>Astro 5</span><span>TypeScript</span><span>FastAPI</span><span>Postgres</span><span>Claude API</span><span>nginx</span><span>Docker</span></div>
+      <div class="links"><a class="go" href="https://4thtechjo.com" rel="noopener">4thtechjo.com ↗</a><a class="quiet" href="https://github.com/notnizar/4thtech-work/blob/main/projects/website.md" rel="noopener">Case study on GitHub ↗</a></div>
+    </div>
+  </article>
+
+  <article class="proj" id="iot" data-name="4Tech-IoT" data-bg="#091422" data-ac="#5cc8ff" style="--pc:#5cc8ff">
+    <header class="rv">
+      <span class="num" aria-hidden="true">03</span>
+      <h3>4Tech-IoT</h3>
+      <p class="mono meta">Client · Aug–Oct 2026 · app, firmware, backend</p>
+      <p class="what">One phone app for every 4Tech smart-home device, the firmware the devices run and the self-hosted server between them.</p>
+    </header>
+    <div class="viewer rv d1">
+      <div class="track" tabindex="0" role="group" aria-label="4Tech-IoT screens">
+        <figure class="slide" data-label="Home">
+          <div class="fit phones" style="--n:3">
+            <img class="ph" src="assets/shots/iot-home.webp" alt="The Home screen: devices on, an alert and favourites" width="393" height="852" loading="lazy" decoding="async">
+            <img class="ph" src="assets/shots/iot-home-dark.webp" alt="Home in dark mode" width="393" height="852" loading="lazy" decoding="async">
+            <img class="ph" src="assets/shots/iot-devices.webp" alt="Every device, grouped by room" width="393" height="852" loading="lazy" decoding="async">
+          </div>
+          <figcaption><span>Home in light and dark, and every device grouped by room.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="From a schema" data-pt="a">
+          <div class="fit phones" style="--n:3">
+            <img class="ph" data-src="assets/shots/iot-light.webp" alt="A smart light: brightness and its history" width="393" height="852" decoding="async">
+            <img class="ph" data-src="assets/shots/iot-tank.webp" alt="A water tank at 64 percent, in dark mode" width="393" height="852" decoding="async">
+            <img class="ph" data-src="assets/shots/iot-history.webp" alt="The tank's history, settings and alert rules" width="393" height="852" decoding="async">
+          </div>
+          <figcaption><span>A light and a water tank. The app has no code for either: each screen is built from the schema its firmware sends.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Alerts" data-pt="b">
+          <div class="fit phones" style="--n:2">
+            <img class="ph" data-src="assets/shots/iot-alerts.webp" alt="Alerts: a fan offline and a tank below 20 percent" width="393" height="852" decoding="async">
+            <img class="ph" data-src="assets/shots/iot-rule.webp" alt="A new alert rule: fill level below 10 percent" width="393" height="852" decoding="async">
+          </div>
+          <figcaption><span>Alert rules, such as a tank below 20%. The server checks them and sends a push notification.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Updates" data-pt="c">
+          <div class="fit phones" style="--n:2">
+            <img class="ph" data-src="assets/shots/iot-firmware.webp" alt="A tank's firmware: version 2.1.0, with an update to 2.2.0 waiting" width="393" height="852" decoding="async">
+            <img class="ph" data-src="assets/shots/iot-people.webp" alt="People in a site: the owner, members and an invite" width="393" height="852" decoding="async">
+          </div>
+          <figcaption><span>A signed firmware update waiting on a tank, and a site shared with other people by invite.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Demo">
+          <div class="fit phones" style="--n:2">
+            <img class="ph" data-src="assets/shots/iot-signin.webp" alt="Sign-in: Apple, Google or email" width="393" height="852" decoding="async">
+            <img class="ph" data-src="assets/shots/iot-demo.webp" alt="Demo mode, explaining how a device is added over Bluetooth" width="393" height="852" decoding="async">
+          </div>
+          <figcaption><span>Sign in with Apple, Google or email, or open the demo: the real screens with sample devices and no hardware.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="notes rv d2">
+      <ul class="pts">
+        <li data-pt="a"><button type="button" class="pt">The app knows no products.</button> Each device's firmware describes its controls and readings in a schema, and the app builds the screen from that. A new product needs only new firmware.</li>
+        <li data-pt="b"><button type="button" class="pt">Works when the internet doesn't.</button> Setup and control over Bluetooth, remote control through the server, push alerts when a tank runs low. <a class="ev" href="https://github.com/notnizar/4thtech-work#the-4tech-iot-platform" rel="noopener">Diagram ↗</a></li>
+        <li data-pt="c"><button type="button" class="pt">A certificate per device,</button> mutual TLS to the broker, and signed over-the-air updates with rollback.</li>
+      </ul>
+      <div class="chips"><span>Flutter</span><span>ESP32 · C++</span><span>Bluetooth LE</span><span>FastAPI</span><span>EMQX · MQTT</span><span>Postgres</span></div>
+      <div class="links"><a class="go" href="https://github.com/notnizar/4thtech-work/blob/main/projects/iot-app.md" rel="noopener">The app ↗</a><a class="quiet" href="https://github.com/notnizar/4thtech-work/blob/main/projects/iot-backend.md" rel="noopener">The backend ↗</a></div>
+    </div>
+  </article>
+
+  <article class="proj" id="fao" data-name="FAO Properties" data-bg="#0c1120" data-ac="#e2bd77" style="--pc:#e2bd77">
+    <header class="rv">
+      <span class="num" aria-hidden="true">04</span>
+      <h3>FAO Properties</h3>
+      <p class="mono meta">Client · live since Oct 2026 · build, SEO, launch</p>
+      <p class="what">A search-first website for a Dubai property brokerage, launched in Serbian and built to take more languages.</p>
+    </header>
+    <div class="viewer rv d1">
+      <div class="track" tabindex="0" role="group" aria-label="FAO Properties screens">
+        <figure class="slide" data-label="Home">
+          <div class="fit duo">
+            <div class="br" data-url="www.faoproperties.com/sr"><img src="assets/shots/fao-desktop.webp" alt="The FAO Properties home page in Serbian, over a photo of towers in Dubai" width="1400" height="875" loading="lazy" decoding="async"></div>
+            <img class="ph" src="assets/shots/fao-phone.webp" alt="The home page on a phone" width="600" height="1298" loading="lazy" decoding="async">
+          </div>
+          <figcaption><span>The home page in Serbian: search by location, bedrooms and price.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Projects">
+          <div class="fit"><div class="br" data-url="www.faoproperties.com/sr/projekti"><img data-src="assets/shots/fao-list.webp" alt="The project list: 45 new developments in Dubai, with filters" width="1400" height="875" decoding="async"></div></div>
+          <figcaption><span>45 projects, filtered by location, developer, price, bedrooms and handover date.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="A project">
+          <div class="fit duo">
+            <div class="br" data-url="www.faoproperties.com/sr/projekti/eltiera-views"><img data-src="assets/shots/fao-project.webp" alt="A project page: Eltiera Views, with its gallery, price and enquiry form" width="1400" height="875" decoding="async"></div>
+            <img class="ph" data-src="assets/shots/fao-project-phone.webp" alt="The same project page on a phone" width="780" height="1688" decoding="async">
+          </div>
+          <figcaption><span>A project page: gallery, price in dirhams and euros, payment plan and an enquiry form.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Publish refused" data-pt="c">
+          <div class="fit"><div class="br" style="--r:1.7778" data-url="cms · new project"><img data-src="assets/shots/fao-cms-refused.webp" alt="The CMS refusing to publish: can't publish in this language yet, the description is missing" width="1280" height="720" decoding="async"></div></div>
+          <figcaption><span>The CMS refusing to publish a page in Serbian, because its description is missing.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Preview" data-pt="c">
+          <div class="fit"><div class="br" style="--r:1.7778" data-url="cms · live preview"><img data-src="assets/shots/fao-cms-preview.webp" alt="A live preview in the CMS that lists what is still missing" width="1280" height="720" decoding="async"></div></div>
+          <figcaption><span>A preview only the editor sees, listing what is still missing before the page goes live.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="notes rv d2">
+      <ul class="pts">
+        <li><b>Moved a live site without losing its search traffic:</b> 227 of the old site's 228 addresses redirect to their new page in one hop.</li>
+        <li><b>Built for search and answer engines:</b> structured data on every page type, an llms.txt, and IndexNow pings a minute after each save. <a class="ev" href="https://www.faoproperties.com/llms.txt" rel="noopener">llms.txt ↗</a></li>
+        <li data-pt="c"><button type="button" class="pt">The client runs it themselves</button> in a CMS that refuses to publish a page that is missing its description or image alt text. Zero automated accessibility violations after launch.</li>
+      </ul>
+      <div class="chips"><span>Next.js</span><span>Payload CMS</span><span>Postgres</span><span>Playwright</span><span>Cloudflare</span><span>Docker</span></div>
+      <div class="links"><a class="go" href="https://www.faoproperties.com/sr" rel="noopener">faoproperties.com ↗</a></div>
+    </div>
+  </article>
+
+  <article class="proj" id="pumpkin" data-name="Pumpkin Group" data-bg="#1c1106" data-ac="#ff8a2b" style="--pc:#ff8a2b">
+    <header class="rv">
+      <span class="num" aria-hidden="true">05</span>
+      <h3>Pumpkin Group</h3>
+      <p class="mono meta">Agency site · 2026 · design and code</p>
+      <p class="what">A bilingual site for a branding and marketing agency in Amman, with a pumpkin made of six thousand particles.</p>
+    </header>
+    <div class="viewer rv d1">
+      <div class="track" tabindex="0" role="group" aria-label="Pumpkin Group screens">
+        <figure class="slide" data-label="Home" data-pt="a">
+          <div class="fit duo">
+            <div class="br" data-url="notnizar.github.io/pumpkin-website"><img src="assets/shots/pumpkin-desktop.webp" alt="The Pumpkin Group home page, with a pumpkin drawn in orange particles" width="1400" height="875" loading="lazy" decoding="async"></div>
+            <img class="ph" src="assets/shots/pumpkin-phone.webp" alt="The home page on a phone" width="600" height="1298" loading="lazy" decoding="async">
+          </div>
+          <figcaption><span>The home page. On the live site the pumpkin assembles from a cloud and parts around the cursor.</span><button type="button" class="mini live-btn" id="liveBtn" data-src="https://notnizar.github.io/pumpkin-website/"><svg viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="M2 1l7 4-7 4z"/></svg><span>Run it live</span></button></figcaption>
+        </figure>
+        <figure class="slide" data-label="Dark" data-pt="c">
+          <div class="fit"><div class="br" data-url="notnizar.github.io/pumpkin-website"><img data-src="assets/shots/pumpkin-dark.webp" alt="The home page in dark mode, the pumpkin glowing" width="1400" height="875" decoding="async"></div></div>
+          <figcaption><span>The same page in dark mode.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Arabic" data-pt="c">
+          <div class="fit"><div class="br" data-url="notnizar.github.io/pumpkin-website"><img data-src="assets/shots/pumpkin-ar.webp" alt="The home page in Arabic, mirrored right to left" width="1400" height="875" decoding="async"></div></div>
+          <figcaption><span>And in Arabic, mirrored right to left.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Services">
+          <div class="fit"><div class="br" data-url="notnizar.github.io/pumpkin-website/#services"><img data-src="assets/shots/pumpkin-services.webp" alt="The services section: four disciplines, one point of view" width="1400" height="875" decoding="async"></div></div>
+          <figcaption><span>The services section on a desktop.</span></figcaption>
+        </figure>
+        <figure class="slide" data-label="Phone" data-pt="b">
+          <div class="fit phones" style="--n:2">
+            <img class="ph" data-src="assets/shots/pumpkin-phone-cards.webp" alt="Service cards stacking as you scroll, above the floating dock" width="780" height="1688" decoding="async">
+            <img class="ph" data-src="assets/shots/pumpkin-phone-work.webp" alt="The work carousel on a phone, made to be swiped" width="780" height="1688" decoding="async">
+          </div>
+          <figcaption><span>On a phone: cards that stack as you scroll, a carousel you swipe, and a floating dock that names the section.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="notes rv d2">
+      <ul class="pts">
+        <li data-pt="a"><button type="button" class="pt">The pumpkin is alive.</button> It assembles from a cloud, parts around the cursor, bursts when clicked and dissolves as you scroll past.</li>
+        <li data-pt="b"><button type="button" class="pt">A phone design of its own,</button> not a shrunken desktop: a floating dock, stacking cards and a carousel you swipe.</li>
+        <li data-pt="c"><button type="button" class="pt">One HTML file, no build step.</button> English and Arabic, light and dark, and the finished page at once for anyone who prefers less motion.</li>
+      </ul>
+      <div class="chips"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Three.js</span><span>View Transitions</span></div>
+      <div class="links"><a class="go" href="https://notnizar.github.io/pumpkin-website/" rel="noopener">Live site ↗</a><a class="quiet" href="https://github.com/notnizar/pumpkin-website" rel="noopener">Source on GitHub ↗</a></div>
+    </div>
+  </article>
+
+  <article class="proj" id="loyalty" data-name="My Points" data-bg="#12150a" data-ac="#d7e36a" style="--pc:#d7e36a">
+    <header class="rv">
+      <span class="num" aria-hidden="true">06</span>
+      <h3>My Points</h3>
+      <p class="mono meta">Product · Oct 2026 · apps, backend, design system</p>
+      <p class="what">A loyalty platform for small restaurants and coffee shops in Jordan: one app for every shop, each in its own colours.</p>
+    </header>
+    <div class="viewer rv d1">
+      <div class="track" tabindex="0" role="group" aria-label="My Points screens">
+        <figure class="slide" data-label="Owner's home">
+          <div class="fit duo">
+            <div class="br" data-url="merchant site · demo shop"><img src="assets/shots/loyalty-home.webp" alt="The shop owner's home page: new customers, points given and redeemed, and visits per day" width="1440" height="900" loading="lazy" decoding="async"></div>
+            <img class="ph" src="assets/shots/loyalty-phone.webp" alt="The owner's page on a phone" width="390" height="844" loading="lazy" decoding="async">
+          </div>
+          <figcaption><span>The shop owner's home page for a demo shop: new customers, points given and redeemed, and visits per day.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="notes rv d2">
+      <ul class="pts">
+        <li><b>A wallet of loyalty cards.</b> One code works at every shop's counter, the cards work offline, and a card can go in Apple Wallet or Google Wallet.</li>
+        <li><b>A counter page built for a queue:</b> scan or search, add points, redeem, undo. Owners get stats, products, deals and customers.</li>
+        <li><b>Tested against a real Postgres,</b> so a model change without a migration fails the suite. Arabic and English throughout.</li>
+      </ul>
+      <div class="chips"><span>Flutter</span><span>Flutter Web</span><span>FastAPI</span><span>PostgreSQL</span><span>Docker</span><span>Caddy</span></div>
+      <div class="links"><span class="mono">Private repository · screens show a demo shop</span></div>
+    </div>
+  </article>
 </section>
 
-<section class="proj" id="bloom" data-bg="#1b0e10" data-ac="#f0764f">
-  <div class="copy">
-    <div class="num rv">01</div>
-    <p class="mono rv">Product · 2026 · design, code, hosting</p>
-    <h3 class="rv d1">Flower JO</h3>
-    <p class="what rv d1">Online stores for flower shops that sell on WhatsApp and Instagram. One codebase and one database serve every shop.</p>
-    <ul class="rv d2">
-      <li><b>A new shop is a database row and a DNS record.</b> The shop is read from the request's host, and Postgres row-level security enforces the boundary a second time.</li>
-      <li><b>A bouquet builder with a live price,</b> delivery slots the shop can actually make, and a private page for whoever receives the flowers.</li>
-      <li><b>Three storefront looks, English and Arabic,</b> and an owner dashboard that works from a phone.</li>
-    </ul>
-    <div class="chips rv d2"><span>Next.js 16</span><span>React 19</span><span>PostgreSQL 17</span><span>Prisma 7</span><span>Tailwind 4</span><span>Docker</span></div>
-    <div class="links rv d3"><a href="https://petal.164.92.163.208.sslip.io/" rel="noopener">Live demo store ↗</a><a class="quiet" href="https://github.com/notnizar/flower-jo" rel="noopener">Case study on GitHub ↗</a></div>
-  </div>
-  <div class="stage rv d1">
-    <div class="glow"></div>
-    <div class="browser"><div class="bar"><i></i><i></i><i></i><span>flower-jo · landing</span></div><img src="assets/shots/bloom-landing.webp" alt="The Flower JO landing page, headed Orders, not chats" width="1400" height="875" loading="lazy"></div>
-    <div class="phone"><img src="assets/shots/bloom-builder.webp" alt="The bouquet builder on a phone" width="600" height="1298" loading="lazy"></div>
-  </div>
-</section>
-
-<section class="proj" id="fourtech" data-bg="#0a1c19" data-ac="#6fe6bd">
-  <div class="copy">
-    <div class="num rv">02</div>
-    <p class="mono rv">Client · Sep–Nov 2026 · everything</p>
-    <h3 class="rv d1">4Tech website</h3>
-    <p class="what rv d1">A company site that also does work, for an Amman company that teaches robotics, builds smart devices and runs a 3D printing service.</p>
-    <ul class="rv d2">
-      <li><b>Drop a 3D model, get a price at once.</b> The browser measures the model in a Web Worker and draws it in WebGL written without a library. The server never touches the file.</li>
-      <li><b>An AI assistant that makes a first price offer</b> through a checked tool call, from a price guide the staff edit.</li>
-      <li><b>A staff admin panel and 240 backend tests,</b> all sized to run on one 2 GB server.</li>
-    </ul>
-    <div class="chips rv d2"><span>Astro 5</span><span>TypeScript</span><span>FastAPI</span><span>Postgres</span><span>Claude API</span><span>nginx</span><span>Docker</span></div>
-    <div class="links rv d3"><a href="https://4thtechjo.com" rel="noopener">4thtechjo.com ↗</a><a class="quiet" href="https://github.com/notnizar/4thtech-work/blob/main/projects/website.md" rel="noopener">Case study on GitHub ↗</a></div>
-  </div>
-  <div class="stage rv d1">
-    <div class="glow"></div>
-    <div class="browser"><div class="bar"><i></i><i></i><i></i><span>4thtechjo.com</span></div><img src="assets/shots/4tech-home.webp" alt="The 4Tech home page: Ideas, built and printed" width="1400" height="875" loading="lazy"></div>
-    <div class="phone"><img src="assets/shots/4tech-phone.webp" alt="The 4Tech home page in Arabic on a phone" width="600" height="1298" loading="lazy"></div>
-  </div>
-</section>
-
-<section class="proj" id="iot" data-bg="#091422" data-ac="#5cc8ff">
-  <div class="copy">
-    <div class="num rv">03</div>
-    <p class="mono rv">Client · Aug–Oct 2026 · app, firmware, backend</p>
-    <h3 class="rv d1">4Tech-IoT</h3>
-    <p class="what rv d1">One phone app for every 4Tech smart-home device, the firmware the devices run and the self-hosted server between them.</p>
-    <ul class="rv d2">
-      <li><b>The app knows no products.</b> Each device's firmware describes its controls and readings in a schema, and the app builds the screen from that. A new product needs only new firmware.</li>
-      <li><b>Works when the internet doesn't.</b> Setup and control over Bluetooth, remote control through the server, push alerts when a tank runs low.</li>
-      <li><b>A certificate per device,</b> mutual TLS to the broker, and signed over-the-air updates with rollback.</li>
-    </ul>
-    <div class="chips rv d2"><span>Flutter</span><span>ESP32 · C++</span><span>Bluetooth LE</span><span>FastAPI</span><span>EMQX · MQTT</span><span>Postgres</span></div>
-    <div class="links rv d3"><a href="https://github.com/notnizar/4thtech-work/blob/main/projects/iot-app.md" rel="noopener">The app ↗</a><a class="quiet" href="https://github.com/notnizar/4thtech-work/blob/main/projects/iot-backend.md" rel="noopener">The backend ↗</a></div>
-  </div>
-  <div class="stage trio rv d1">
-    <div class="glow"></div>
-    <div class="phone"><img src="assets/shots/iot-alerts.webp" alt="Alerts in the 4Tech-IoT app" width="393" height="852" loading="lazy"></div>
-    <div class="phone"><img src="assets/shots/iot-home.webp" alt="The 4Tech-IoT home screen" width="393" height="852" loading="lazy"></div>
-    <div class="phone"><img src="assets/shots/iot-tank.webp" alt="A water tank in the app, in dark mode" width="393" height="852" loading="lazy"></div>
-  </div>
-</section>
-
-<section class="proj" id="fao" data-bg="#0c1120" data-ac="#e2bd77">
-  <div class="copy">
-    <div class="num rv">04</div>
-    <p class="mono rv">Client · live since Oct 2026 · build, SEO, launch</p>
-    <h3 class="rv d1">FAO Properties</h3>
-    <p class="what rv d1">A search-first website for a Dubai property brokerage, launched in Serbian and built to take more languages.</p>
-    <ul class="rv d2">
-      <li><b>Moved a live site without losing its search traffic:</b> 227 of the old site's 228 addresses redirect to their new page in one hop.</li>
-      <li><b>Built for search and answer engines:</b> structured data on every page type, an llms.txt, and IndexNow pings a minute after each save.</li>
-      <li><b>The client runs it themselves</b> in a CMS that refuses to publish a page that is missing its description or image alt text. Zero automated accessibility violations after launch.</li>
-    </ul>
-    <div class="chips rv d2"><span>Next.js</span><span>Payload CMS</span><span>Postgres</span><span>Playwright</span><span>Cloudflare</span><span>Docker</span></div>
-    <div class="links rv d3"><a href="https://www.faoproperties.com/sr" rel="noopener">faoproperties.com ↗</a></div>
-  </div>
-  <div class="stage rv d1">
-    <div class="glow"></div>
-    <div class="browser"><div class="bar"><i></i><i></i><i></i><span>www.faoproperties.com/sr</span></div><img src="assets/shots/fao-desktop.webp" alt="The FAO Properties home page in Serbian, over a photo of towers in Dubai" width="1400" height="875" loading="lazy"></div>
-    <div class="phone"><img src="assets/shots/fao-phone.webp" alt="FAO Properties on a phone" width="600" height="1298" loading="lazy"></div>
-  </div>
-</section>
-
-<section class="proj" id="pumpkin" data-bg="#1c1106" data-ac="#ff8a2b">
-  <div class="copy">
-    <div class="num rv">05</div>
-    <p class="mono rv">Agency site · 2026 · design and code</p>
-    <h3 class="rv d1">Pumpkin Group</h3>
-    <p class="what rv d1">A bilingual site for a branding and marketing agency in Amman, with a pumpkin made of six thousand particles.</p>
-    <ul class="rv d2">
-      <li><b>The pumpkin is alive.</b> It assembles from a cloud, parts around the cursor, bursts when clicked and dissolves as you scroll past.</li>
-      <li><b>A phone design of its own,</b> not a shrunken desktop: a floating dock, stacking cards and a carousel you swipe.</li>
-      <li><b>One HTML file, no build step.</b> English and Arabic, light and dark, and the finished page at once for anyone who prefers less motion.</li>
-    </ul>
-    <div class="chips rv d2"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Three.js</span><span>View Transitions</span></div>
-    <div class="links rv d3"><a href="https://notnizar.github.io/pumpkin-website/" rel="noopener">Live site ↗</a><a class="quiet" href="https://github.com/notnizar/pumpkin-website" rel="noopener">Source on GitHub ↗</a></div>
-  </div>
-  <div class="stage rv d1">
-    <div class="glow"></div>
-    <div class="browser"><div class="bar"><i></i><i></i><i></i><span>pumpkin-website</span></div><img src="assets/shots/pumpkin-desktop.webp" alt="The Pumpkin Group home page with a pumpkin drawn in orange particles" width="1400" height="875" loading="lazy"></div>
-    <div class="phone"><img src="assets/shots/pumpkin-phone.webp" alt="Pumpkin Group on a phone" width="600" height="1298" loading="lazy"></div>
-  </div>
-</section>
-
-<section class="proj" id="loyalty" data-bg="#12150a" data-ac="#d7e36a">
-  <div class="copy">
-    <div class="num rv">06</div>
-    <p class="mono rv">Product · Oct 2026 · apps, backend, design system</p>
-    <h3 class="rv d1">My Points</h3>
-    <p class="what rv d1">A loyalty platform for small restaurants and coffee shops in Jordan: one app for every shop, each in its own colours.</p>
-    <ul class="rv d2">
-      <li><b>A wallet of loyalty cards.</b> One code works at every shop's counter, the cards work offline, and a card can go in Apple Wallet or Google Wallet.</li>
-      <li><b>A counter page built for a queue:</b> scan or search, add points, redeem, undo. Owners get stats, products, deals and customers.</li>
-      <li><b>Tested against a real Postgres,</b> so a model change without a migration fails the suite. Arabic and English throughout.</li>
-    </ul>
-    <div class="chips rv d2"><span>Flutter</span><span>Flutter Web</span><span>FastAPI</span><span>PostgreSQL</span><span>Docker</span><span>Caddy</span></div>
-    <div class="links rv d3"><span class="mono">Private repository · screens show a demo shop</span></div>
-  </div>
-  <div class="stage rv d1">
-    <div class="glow"></div>
-    <div class="browser"><div class="bar"><i></i><i></i><i></i><span>merchant site · demo shop</span></div><img src="assets/shots/loyalty-home.webp" alt="The shop owner's home page: new customers, points given and redeemed, and visits per day" width="1440" height="900" loading="lazy"></div>
-    <div class="phone"><img src="assets/shots/loyalty-phone.webp" alt="The owner's page on a phone" width="390" height="844" loading="lazy" style="aspect-ratio:390/844"></div>
-  </div>
-</section>
-
-<section id="fixes"data-bg="#0d0e11" data-ac="#f3efe8">
+<section class="sec" id="fixes" data-bg="#0d0e11" data-ac="#f3efe8">
   <div class="sec-head rv"><h2>Things that broke, <em>and what I did</em></h2><span class="mono">From the 4Tech platform</span></div>
   <div class="ledger">
     <div class="fix rv"><span class="mono">01</span><p class="p">The device broker accepted anonymous connections, and the code meant to lock it was failing silently.</p><p class="s">Mutual TLS with a certificate per device, deny by default, and a setup check that fails loudly.</p></div>
@@ -371,7 +728,7 @@ footer h2 a:hover{transform:translateX(14px)}
   <p class="note rv">The full list, with causes: <a href="https://github.com/notnizar/4thtech-work/blob/main/problems-solved.md" rel="noopener">problems-solved.md ↗</a></p>
 </section>
 
-<section id="about" data-bg="#0d0e11" data-ac="#f3efe8">
+<section class="sec" id="about" data-bg="#0d0e11" data-ac="#f3efe8">
   <div class="about">
     <div>
       <p class="mono rv" style="margin-bottom:20px">About</p>
@@ -399,65 +756,288 @@ footer h2 a:hover{transform:translateX(14px)}
   </div>
 </footer>
 
-<div class="peek" id="peek" aria-hidden="true"></div>
+<dialog class="lb" id="lb" aria-label="Screens at full size">
+  <div class="lb-top">
+    <p class="mono" id="lbTitle"></p>
+    <div class="lb-ctl">
+      <span class="mono" id="lbCount"></span>
+      <button type="button" class="ar nav-ar" id="lbPrev" aria-label="Previous screen"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button>
+      <button type="button" class="ar nav-ar" id="lbNext" aria-label="Next screen"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
+      <button type="button" class="ar" id="lbClose" aria-label="Close" autofocus><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+    </div>
+  </div>
+  <div class="lb-track" id="lbTrack" tabindex="0" role="group" aria-label="Screens"></div>
+</dialog>
 
 <script>
 (function(){
+  'use strict';
   var d=document, root=d.documentElement, body=d.body;
   var calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO='IntersectionObserver' in window;
+  function $(s,c){return (c||d).querySelector(s)}
+  function $$(s,c){return [].slice.call((c||d).querySelectorAll(s))}
+  function pad(n){return (n<10?'0':'')+n}
+  function el(tag,cls,html){var e=d.createElement(tag);if(cls)e.className=cls;if(html)e.innerHTML=html;return e}
+  // pictures past the first screen wait in data-src until someone is about to see them
+  function hydrate(scope){if(scope)$$('img[data-src]',scope).forEach(function(im){im.src=im.getAttribute('data-src');im.removeAttribute('data-src')})}
+  // an end-of-list arrow stays focusable, so the keyboard never loses its place
+  function dim(b,on){b.setAttribute('aria-disabled',on?'true':'false')}
+  // neighbours slide; anything further away cuts across with a short fade
+  function travel(track,k,from,instant){
+    var far=Math.abs(k-from)>1, jump=instant||calm||far;
+    track.scrollTo({left:k*track.clientWidth,behavior:jump?'instant':'smooth'});
+    if(far&&!instant&&!calm&&track.animate)track.animate([{opacity:.2},{opacity:1}],{duration:280,easing:'ease-out'});
+    return jump;
+  }
+  var ICON={
+    prev:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>',
+    next:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>',
+    full:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5L9 7M2.5 13.5L7 9"/></svg>',
+    pause:'<svg viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="M1.5 1h2.4v8H1.5zM6.1 1h2.4v8H6.1z"/></svg>',
+    play:'<svg viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="M2 1l7 4-7 4z"/></svg>'
+  };
 
-  // reveal on scroll
-  if('IntersectionObserver' in window && !calm){
+  // reveal on scroll. If the observer never reports (a throttled background tab), show everything.
+  if(hasIO && !calm){
     root.classList.add('anim');
-    var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
-    d.querySelectorAll('.rv').forEach(function(el){ro.observe(el)});
+    var heard=false;
+    var ro=new IntersectionObserver(function(es){heard=true;es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}})},{rootMargin:'0px 0px -6% 0px'});
+    $$('.rv').forEach(function(x){ro.observe(x)});
+    setTimeout(function(){if(!heard)root.classList.remove('anim')},1600);
   }
 
-  // the page takes each project's colours
-  if('IntersectionObserver' in window){
-    var to=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
-      body.style.setProperty('--bg',e.target.dataset.bg);body.style.setProperty('--ac',e.target.dataset.ac);
-    }})},{rootMargin:'-50% 0px -50% 0px'});
-    d.querySelectorAll('[data-bg]').forEach(function(el){to.observe(el)});
+  // the page takes each project's colours; the rail marks where you are
+  var hero=$('#hero'), railLinks=$$('#rail a'), current=hero, reelAc=null;
+  function paint(sec){
+    current=sec;
+    body.style.setProperty('--bg',sec.dataset.bg);
+    body.style.setProperty('--ac',sec===hero&&reelAc?reelAc:sec.dataset.ac);
+    var inWork=sec.classList.contains('proj');
+    body.classList.toggle('in-work',inWork);
+    railLinks.forEach(function(a){
+      var on=inWork&&a.getAttribute('href')==='#'+sec.id;
+      a.classList.toggle('on',on);
+      if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');
+    });
+    if(!inWork||sec.id!=='pumpkin')closeLive();
+  }
+  if(hasIO){
+    var to=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)paint(e.target)})},{rootMargin:'-50% 0px -50% 0px'});
+    $$('[data-bg]').forEach(function(x){to.observe(x)});
   }
 
   // nav border
-  var nav=d.getElementById('nav');
+  var nav=$('#nav');
   addEventListener('scroll',function(){nav.classList.toggle('stuck',scrollY>10)},{passive:true});
 
   // Amman clock
-  var clock=d.getElementById('clock');
+  var clock=$('#clock');
   function tick(){try{clock.textContent=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Amman'}).format(new Date())}catch(e){}}
   tick();setInterval(tick,20000);
 
-  if(calm||!matchMedia('(hover:hover)').matches) return;
-
-  // hero deck follows the pointer
-  var deck=d.getElementById('deck'), cards=[].slice.call(deck.children);
-  var base=cards.map(function(c){return {x:parseFloat(c.style.getPropertyValue('--x')),y:parseFloat(c.style.getPropertyValue('--y'))}});
-  d.querySelector('.hero').addEventListener('pointermove',function(e){
-    var nx=e.clientX/innerWidth-.5, ny=e.clientY/innerHeight-.5;
-    cards.forEach(function(c,i){var k=1+(base[i].x||base[i].y?1:0)*.9;
-      c.style.setProperty('--x',(base[i].x*(1+Math.abs(nx)*.5)+nx*9*k)+'%');
-      c.style.setProperty('--y',(base[i].y*(1+Math.abs(ny)*.5)+ny*9*k)+'%');});
-  });
-
-  // index preview follows the cursor
-  var peek=d.getElementById('peek'), rows=d.getElementById('rows'), imgs={};
-  rows.querySelectorAll('a').forEach(function(a){
-    var im=new Image();im.src=a.dataset.alt==='iot'?'assets/shots/iot-home.webp':a.dataset.img;im.alt='';
-    if(a.dataset.alt==='iot'){im.style.objectFit='contain';im.style.background='#eef2f6'}
-    peek.appendChild(im);imgs[a.getAttribute('href')]=im;
-    a.addEventListener('pointerenter',function(){for(var k in imgs)imgs[k].classList.remove('on');im.classList.add('on');peek.classList.add('on')});
-  });
-  rows.addEventListener('pointerleave',function(){peek.classList.remove('on')});
-  var tx=0,ty=0,px=0,py=0,rot=0;
-  rows.addEventListener('pointermove',function(e){tx=e.clientX;ty=e.clientY});
-  (function loop(){
-    var dx=tx-px;px+=dx*.14;py+=(ty-py)*.14;rot+=((Math.max(-14,Math.min(14,dx*.12)))-rot)*.12;
-    peek.style.transform='translate('+(px+28)+'px,'+(py-110)+'px) rotate('+rot+'deg)';
-    requestAnimationFrame(loop);
+  // hero reel: the index's progress bar is the clock, so pausing the bar pauses the reel
+  (function(){
+    var reel=$('#reel'), slides=$$('.rs',reel), items=$$('#idx a'), now=$('#reelNow'), btn=$('#reelPause');
+    var i=0, stopped=false, hover=false, away=false, hoverT;
+    function show(k){
+      i=(k+slides.length)%slides.length;
+      slides.forEach(function(s,j){var on=j===i;s.classList.toggle('on',on);s.setAttribute('aria-hidden',on?'false':'true');s.tabIndex=on?0:-1});
+      items.forEach(function(a,j){a.classList.toggle('on',j===i)});
+      hydrate(slides[i]);
+      now.textContent=pad(i+1)+' / '+pad(slides.length)+' · '+slides[i].dataset.name;
+      reelAc=slides[i].dataset.ac;
+      if(current===hero)body.style.setProperty('--ac',reelAc);
+    }
+    function hold(){hero.classList.toggle('hold',stopped||hover||away)}
+    items.forEach(function(a,j){
+      $('.bar b',a).addEventListener('animationend',function(){hydrate(slides[(j+2)%slides.length]);show(j+1)});
+      a.addEventListener('pointerenter',function(e){if(e.pointerType==='touch')return;hover=true;hold();clearTimeout(hoverT);hoverT=setTimeout(function(){if(j!==i)show(j)},110)});
+      a.addEventListener('pointerleave',function(){clearTimeout(hoverT);hover=false;hold()});
+      a.addEventListener('focus',function(){hover=true;hold();if(j!==i)show(j)});
+      a.addEventListener('blur',function(){hover=false;hold()});
+    });
+    reel.addEventListener('pointerenter',function(e){if(e.pointerType==='touch')return;hover=true;hold()});
+    reel.addEventListener('pointerleave',function(){hover=false;hold()});
+    btn.addEventListener('click',function(){
+      stopped=!stopped;hold();
+      btn.setAttribute('aria-pressed',stopped?'true':'false');
+      btn.innerHTML=(stopped?ICON.play:ICON.pause)+'<span>'+(stopped?'Play':'Pause')+'</span>';
+    });
+    if(calm){btn.hidden=true}
+    if(hasIO)new IntersectionObserver(function(es){away=!es[0].isIntersecting;hold()},{threshold:.25}).observe(reel);
+    show(0);
+    // fetch the next slide's pictures once the page has settled
+    addEventListener('load',function(){setTimeout(function(){hydrate(slides[1])},400)});
   })();
+
+  // full-size view: every picture of one project, in order
+  var lb=$('#lb'), lbTrack=$('#lbTrack'), lbTitle=$('#lbTitle'), lbCount=$('#lbCount'), lbPrev=$('#lbPrev'), lbNext=$('#lbNext');
+  var lbFigs=[], lbi=0, lbName='', lbLock=0, lbRaf=0;
+  function lbSet(k){
+    lbi=k;
+    lbTitle.textContent=lbName+' · '+lbFigs[k].dataset.label;
+    lbCount.textContent=pad(k+1)+' / '+pad(lbFigs.length);
+    dim(lbPrev,k===0);dim(lbNext,k===lbFigs.length-1);
+    hydrate(lbFigs[k-1]);hydrate(lbFigs[k]);hydrate(lbFigs[k+1]);
+  }
+  function lbGo(k,instant){
+    k=Math.max(0,Math.min(lbFigs.length-1,k));
+    var from=lbi;
+    lbSet(k);
+    lbLock=travel(lbTrack,k,from,instant)?0:Date.now()+900;
+  }
+  function openLb(proj,img){
+    var imgs=$$('.track img',proj);
+    lbName=proj.dataset.name;
+    lbTrack.textContent='';
+    lbFigs=imgs.map(function(s){
+      var f=el('figure'), im=el('img'), c=el('figcaption');
+      var w=+s.getAttribute('width'), h=+s.getAttribute('height');
+      f.dataset.label=s.closest('.slide').dataset.label;
+      if(h>w)f.className='tall';
+      im.alt=s.alt;im.width=w;im.height=h;im.decoding='async';
+      im.setAttribute('data-src',s.getAttribute('src')||s.getAttribute('data-src'));
+      c.textContent=s.alt;
+      f.appendChild(im);f.appendChild(c);lbTrack.appendChild(f);
+      return f;
+    });
+    root.classList.add('lock');
+    lb.showModal();
+    lbGo(Math.max(0,imgs.indexOf(img)),true);
+  }
+  function lbSync(){var k=Math.round(lbTrack.scrollLeft/lbTrack.clientWidth);if(lbFigs[k]&&k!==lbi)lbSet(k)}
+  lbTrack.addEventListener('scroll',function(){
+    if(lbRaf||Date.now()<lbLock)return;
+    lbRaf=requestAnimationFrame(function(){lbRaf=0;lbSync()});
+  },{passive:true});
+  lbTrack.addEventListener('scrollend',function(){lbLock=0;lbSync()});
+  lbPrev.addEventListener('click',function(){lbGo(lbi-1)});
+  lbNext.addEventListener('click',function(){lbGo(lbi+1)});
+  $('#lbClose').addEventListener('click',function(){lb.close()});
+  lbTrack.addEventListener('click',function(e){if(e.target.tagName!=='IMG'&&e.target.tagName!=='FIGCAPTION')lb.close()});
+  lb.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'){lbGo(lbi+1);e.preventDefault()}
+    else if(e.key==='ArrowLeft'){lbGo(lbi-1);e.preventDefault()}
+    else if(e.key==='Home'){lbGo(0);e.preventDefault()}
+    else if(e.key==='End'){lbGo(lbFigs.length-1);e.preventDefault()}
+  });
+  lb.addEventListener('close',function(){root.classList.remove('lock');lbTrack.textContent='';lbFigs=[]});
+
+  // run the Pumpkin site live inside its frame
+  var liveBtn=$('#liveBtn'), liveBr=null, liveFrame=null, liveRo=null;
+  function closeLive(){
+    if(!liveFrame)return;
+    liveFrame.remove();liveFrame=null;
+    liveBr.classList.remove('live');liveBr.parentNode.classList.remove('live');
+    if(liveRo){liveRo.disconnect();liveRo=null}
+    liveBtn.innerHTML=ICON.play+'<span>Run it live</span>';
+  }
+  function openLive(){
+    liveBr=$('.br',liveBtn.closest('.slide'));
+    liveFrame=el('iframe');
+    liveFrame.title='Pumpkin Group, running live';
+    liveFrame.src=liveBtn.dataset.src;
+    function fitFrame(){liveFrame.style.transform='scale('+(liveBr.clientWidth/1400)+')'}
+    liveBr.appendChild(liveFrame);
+    liveBr.classList.add('live');liveBr.parentNode.classList.add('live');
+    fitFrame();
+    if('ResizeObserver' in window){liveRo=new ResizeObserver(fitFrame);liveRo.observe(liveBr)}
+    liveBtn.innerHTML='<span>Back to the picture</span>';
+  }
+  if(liveBtn)liveBtn.addEventListener('click',function(){if(liveFrame)closeLive();else openLive()});
+
+  // each project's viewer: tabs, arrows, a counter, and claims that point at their screens
+  $$('.viewer').forEach(function(v){
+    var proj=v.closest('.proj'), track=$('.track',v), sl=$$('.slide',track), n=sl.length;
+    var cur=-1, lock=0, raf=0, armed=false, browsed=false;
+    var pts=$$('.pts li[data-pt]',proj);
+    // near the viewport: this screen and its neighbours. Once someone starts browsing: the rest, when the browser is idle.
+    function near(k){hydrate(sl[k]);hydrate(sl[k+1]);hydrate(sl[k-1])}
+    function browse(){
+      armed=true;
+      if(browsed)return;
+      browsed=true;
+      (window.requestIdleCallback||setTimeout)(function(){sl.forEach(hydrate)},{timeout:1500});
+    }
+
+    var bar=el('div','vbar'), tabs=el('div','tabs'), ctl=el('div','vctl');
+    tabs.setAttribute('role','toolbar');
+    tabs.setAttribute('aria-label',proj.dataset.name+': choose a screen');
+    var tabEls=sl.map(function(s,k){
+      s.id=proj.id+'-v'+(k+1);
+      var b=el('button','tab');
+      b.type='button';b.textContent=s.dataset.label;
+      b.setAttribute('aria-controls',s.id);
+      b.addEventListener('click',function(){go(k)});
+      b.addEventListener('pointerenter',function(){hydrate(s)});
+      tabs.appendChild(b);
+      return b;
+    });
+    var cnt=el('span','mono cnt'), prev=el('button','ar',ICON.prev), next=el('button','ar',ICON.next), full=el('button','ar',ICON.full);
+    prev.type=next.type=full.type='button';
+    prev.setAttribute('aria-label','Previous screen');next.setAttribute('aria-label','Next screen');full.setAttribute('aria-label','Open at full size');
+    if(n>1){ctl.appendChild(cnt);ctl.appendChild(prev);ctl.appendChild(next)}
+    ctl.appendChild(full);
+    bar.appendChild(tabs);bar.appendChild(ctl);
+    v.insertBefore(bar,track);
+
+    function set(k){
+      if(k===cur)return;
+      if(cur>=0)browse();
+      cur=k;
+      tabEls.forEach(function(b,j){var on=j===k;b.setAttribute('aria-current',on?'true':'false');b.tabIndex=on?0:-1});
+      sl.forEach(function(s,j){s.setAttribute('aria-hidden',j===k?'false':'true');s.inert=j!==k});
+      cnt.textContent=pad(k+1)+' / '+pad(n);
+      dim(prev,k===0);dim(next,k===n-1);
+      var t=tabEls[k];
+      tabs.scrollTo({left:t.offsetLeft-(tabs.clientWidth-t.offsetWidth)/2,behavior:calm?'instant':'smooth'});
+      var key=sl[k].dataset.pt;
+      pts.forEach(function(li){li.classList.toggle('on',!!key&&li.dataset.pt===key)});
+      if(armed)near(k);
+      if(liveFrame&&proj.contains(liveFrame)&&k!==0)closeLive();
+    }
+    function go(k,instant){
+      k=Math.max(0,Math.min(n-1,k));
+      var from=cur;
+      set(k);
+      lock=travel(track,k,from,instant)?0:Date.now()+900;
+    }
+    function sync(){var k=Math.round(track.scrollLeft/track.clientWidth);if(sl[k])set(k)}
+    track.addEventListener('scroll',function(){
+      if(raf||Date.now()<lock)return;
+      raf=requestAnimationFrame(function(){raf=0;sync()});
+    },{passive:true});
+    track.addEventListener('scrollend',function(){lock=0;sync()});
+    prev.addEventListener('click',function(){go(cur-1)});
+    next.addEventListener('click',function(){go(cur+1)});
+    full.addEventListener('click',function(){browse();openLb(proj,$('img',sl[cur]))});
+    track.addEventListener('click',function(e){if(e.target.tagName==='IMG'){browse();openLb(proj,e.target)}});
+    function keys(e){
+      var k=e.key==='ArrowRight'?cur+1:e.key==='ArrowLeft'?cur-1:e.key==='Home'?0:e.key==='End'?n-1:-1;
+      if(k<0||k>n-1||k===cur)return;
+      e.preventDefault();go(k);
+      if(e.currentTarget===tabs)tabEls[k].focus({preventScroll:true});
+    }
+    tabs.addEventListener('keydown',keys);
+    track.addEventListener('keydown',keys);
+
+    pts.forEach(function(li){
+      var first=-1;
+      sl.forEach(function(s,k){if(first<0&&s.dataset.pt===li.dataset.pt)first=k});
+      if(first<0)return;
+      li.classList.add('has');
+      li.addEventListener('click',function(e){
+        if(e.target.closest('a'))return;
+        go(first);
+        v.scrollIntoView({block:'nearest',behavior:calm?'auto':'smooth'});
+      });
+    });
+
+    set(0);
+    if(hasIO)new IntersectionObserver(function(es,o){if(es[0].isIntersecting){armed=true;near(cur);o.disconnect()}},{rootMargin:'500px 0px'}).observe(v);
+    else{armed=true;near(cur)}
+  });
 })();
 </script>
 </body>
