@@ -220,13 +220,14 @@ footer h2 a:hover{transform:translateX(14px)}
 </div>
 
 <section id="work" data-bg="#0d0e11" data-ac="#f3efe8">
-  <div class="sec-head rv"><h2>Selected work</h2><span class="mono">05 projects · 2026</span></div>
+  <div class="sec-head rv"><h2>Selected work</h2><span class="mono">06 projects · 2026</span></div>
   <ul class="rows" id="rows">
     <li><a href="#bloom" style="--c:#f0764f" data-img="assets/shots/bloom-landing.webp"><span class="mono">01</span><span class="t">Flower JO</span><span class="mono k">Multi-tenant stores</span></a></li>
     <li><a href="#fourtech" style="--c:#6fe6bd" data-img="assets/shots/4tech-home.webp"><span class="mono">02</span><span class="t">4Tech website</span><span class="mono k">Site · AI quotes</span></a></li>
     <li><a href="#iot" style="--c:#5cc8ff" data-img="assets/shots/4tech-print.webp" data-alt="iot"><span class="mono">03</span><span class="t">4Tech-IoT</span><span class="mono k">App · firmware · server</span></a></li>
     <li><a href="#fao" style="--c:#e2bd77" data-img="assets/shots/fao-desktop.webp"><span class="mono">04</span><span class="t">FAO Properties</span><span class="mono k">SEO-first site · CMS</span></a></li>
     <li><a href="#pumpkin" style="--c:#ff8a2b" data-img="assets/shots/pumpkin-desktop.webp"><span class="mono">05</span><span class="t">Pumpkin Group</span><span class="mono k">Agency site · 3D</span></a></li>
+    <li><a href="#loyalty" style="--c:#d7e36a" data-img="assets/shots/loyalty-home.webp"><span class="mono">06</span><span class="t">My Points</span><span class="mono k">Loyalty platform</span></a></li>
   </ul>
 </section>
 
@@ -336,7 +337,28 @@ footer h2 a:hover{transform:translateX(14px)}
   </div>
 </section>
 
-<section id="fixes" data-bg="#0d0e11" data-ac="#f3efe8">
+<section class="proj" id="loyalty" data-bg="#12150a" data-ac="#d7e36a">
+  <div class="copy">
+    <div class="num rv">06</div>
+    <p class="mono rv">Product · Oct 2026 · apps, backend, design system</p>
+    <h3 class="rv d1">My Points</h3>
+    <p class="what rv d1">A loyalty platform for small restaurants and coffee shops in Jordan: one app for every shop, each in its own colours.</p>
+    <ul class="rv d2">
+      <li><b>A wallet of loyalty cards.</b> One code works at every shop's counter, the cards work offline, and a card can go in Apple Wallet or Google Wallet.</li>
+      <li><b>A counter page built for a queue:</b> scan or search, add points, redeem, undo. Owners get stats, products, deals and customers.</li>
+      <li><b>Tested against a real Postgres,</b> so a model change without a migration fails the suite. Arabic and English throughout.</li>
+    </ul>
+    <div class="chips rv d2"><span>Flutter</span><span>Flutter Web</span><span>FastAPI</span><span>PostgreSQL</span><span>Docker</span><span>Caddy</span></div>
+    <div class="links rv d3"><span class="mono">Private repository · screens show a demo shop</span></div>
+  </div>
+  <div class="stage rv d1">
+    <div class="glow"></div>
+    <div class="browser"><div class="bar"><i></i><i></i><i></i><span>merchant site · demo shop</span></div><img src="assets/shots/loyalty-home.webp" alt="The shop owner's home page: new customers, points given and redeemed, and visits per day" width="1440" height="900" loading="lazy"></div>
+    <div class="phone"><img src="assets/shots/loyalty-phone.webp" alt="The owner's page on a phone" width="390" height="844" loading="lazy" style="aspect-ratio:390/844"></div>
+  </div>
+</section>
+
+<section id="fixes"data-bg="#0d0e11" data-ac="#f3efe8">
   <div class="sec-head rv"><h2>Things that broke, <em>and what I did</em></h2><span class="mono">From the 4Tech platform</span></div>
   <div class="ledger">
     <div class="fix rv"><span class="mono">01</span><p class="p">The device broker accepted anonymous connections, and the code meant to lock it was failing silently.</p><p class="s">Mutual TLS with a certificate per device, deny by default, and a setup check that fails loudly.</p></div>
