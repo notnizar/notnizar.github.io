@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nizar — I build the whole thing</title>
+<meta name="description" content="Nizar, a developer in Amman, Jordan. Websites, phone apps, device firmware and the servers behind them: Flower JO, 4Tech, 4Tech-IoT, FAO Properties and Pumpkin Group.">
+<meta property="og:title" content="Nizar — I build the whole thing">
+<meta property="og:description" content="Websites, phone apps, device firmware and the servers behind them. Selected work from Amman, Jordan.">
+<meta property="og:image" content="https://notnizar.github.io/assets/shots/bloom-landing.webp">
+<meta name="theme-color" content="#0d0e11">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d0e11'/%3E%3Cpath d='M9 23V9l14 14V9' fill='none' stroke='%23f3efe8' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0e11; --ac:#f3efe8; --fg:#f3efe8;
+  --mute:rgba(243,239,232,.64); --faint:rgba(243,239,232,.38); --line:rgba(243,239,232,.14);
+  --pad:clamp(18px,5vw,72px);
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Fraunces",Georgia,serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.55;
+  transition:background-color .9s ease;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ac);transition:color .9s ease;letter-spacing:-.01em}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:4px;border-radius:4px}
+
+/* grain */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;
+  padding:16px var(--pad);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 72%,transparent);transition:background-color .9s ease;border-bottom:1px solid transparent}
+.nav.stuck{border-bottom-color:var(--line)}
+.brand{font-weight:800;font-size:19px;letter-spacing:-.03em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand i{width:9px;height:9px;border-radius:50%;background:var(--ac);transition:background-color .9s ease}
+.nav nav{display:flex;gap:clamp(14px,2.4vw,30px);align-items:center}
+.nav nav a{text-decoration:none;font-size:15px;color:var(--mute);transition:color .2s}
+.nav nav a:hover{color:var(--fg)}
+.nav nav a.pill{color:var(--bg);background:var(--fg);padding:8px 14px;border-radius:99px;font-weight:600}
+@media(max-width:560px){.nav nav a:not(.pill):not(.keep){display:none}}
+
+/* hero */
+.hero{min-height:100svh;padding:120px var(--pad) 40px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center;position:relative}
+.hero h1{font-size:clamp(52px,9.4vw,150px);line-height:.9;letter-spacing:-.055em;font-weight:800;margin:22px 0 30px}
+.hero h1 em{font-weight:400;letter-spacing:-.04em}
+.hero p.lead{font-size:clamp(18px,1.6vw,22px);color:var(--mute);max-width:33em}
+.hero p.lead b{color:var(--fg);font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:34px}
+.meta span{display:inline-flex;align-items:center;gap:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:#5fe08a;box-shadow:0 0 0 0 rgba(95,224,138,.6);animation:pulse 2.4s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(95,224,138,0)}100%{box-shadow:0 0 0 0 rgba(95,224,138,0)}}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:16px;padding:14px 22px;border-radius:99px;border:1px solid var(--line);transition:transform .2s,background-color .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--fg)}
+.btn.solid{background:var(--fg);color:#0d0e11;border-color:var(--fg)}
+.btn svg{width:16px;height:16px}
+
+/* hero deck */
+.deck{position:relative;height:min(62vh,560px);perspective:1400px}
+.card{position:absolute;left:50%;top:50%;width:min(78%,520px);aspect-ratio:16/10;border-radius:14px;overflow:hidden;
+  box-shadow:0 30px 70px -20px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.1);
+  transform:translate(-50%,-50%) translate(var(--x),var(--y)) rotate(var(--r));transition:transform .7s cubic-bezier(.2,.8,.2,1);will-change:transform;background:#222}
+.card img{width:100%;height:100%;object-fit:cover;object-position:top}
+.card span{position:absolute;left:10px;bottom:10px;background:rgba(13,14,17,.82);backdrop-filter:blur(6px);padding:5px 10px;border-radius:99px;font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+.deck:hover .card{transition-duration:.25s}
+.scrollcue{position:absolute;left:var(--pad);bottom:22px}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding-top:104px;gap:10px}
+  .deck{height:300px;margin-top:20px}
+  .card{width:min(74%,380px)}
+  .scrollcue{display:none}
+}
+
+/* index */
+section{padding:clamp(70px,10vw,140px) var(--pad)}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:6px}
+.sec-head h2{font-size:clamp(28px,3.6vw,48px);letter-spacing:-.04em;line-height:1;font-weight:700}
+.rows{list-style:none;padding:0}
+.rows a{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:clamp(16px,2.2vw,28px) 0;border-bottom:1px solid var(--line);text-decoration:none;position:relative;transition:padding .35s cubic-bezier(.2,.8,.2,1),color .3s}
+.rows .t{font-size:clamp(30px,6vw,92px);font-weight:800;letter-spacing:-.05em;line-height:1}
+.rows .k{text-align:right}
+.rows:hover a{color:var(--faint)}
+.rows a:hover,.rows a:focus-visible{color:var(--fg);padding-left:18px}
+.rows a:hover .t{color:var(--c)}
+@media(max-width:700px){.rows a{grid-template-columns:34px minmax(0,1fr)}.rows .k{grid-column:2;text-align:left}}
+.peek{position:fixed;left:0;top:0;width:340px;aspect-ratio:16/10;border-radius:12px;overflow:hidden;pointer-events:none;z-index:30;opacity:0;
+  transform:translate(-999px,-999px);transition:opacity .25s;box-shadow:0 30px 60px -15px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.12)}
+.peek.on{opacity:1}
+.peek img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .25s}
+.peek img.on{opacity:1}
+@media(hover:none){.peek{display:none}}
+
+/* project */
+.proj{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,80px);align-items:center;min-height:100svh;position:relative}
+.proj:nth-of-type(even) .copy{order:2}
+.proj .num{font-family:var(--serif);font-style:italic;font-size:clamp(70px,9vw,140px);line-height:.8;color:var(--ac);opacity:.9;transition:color .9s ease;margin-bottom:16px}
+.proj h3{font-size:clamp(38px,5vw,76px);letter-spacing:-.05em;line-height:.95;font-weight:800;margin:14px 0 8px}
+.proj .what{font-size:clamp(18px,1.5vw,21px);color:var(--mute);max-width:30em;margin-top:16px}
+.proj ul{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:14px;max-width:34em}
+.proj li{padding-left:22px;position:relative;color:var(--mute);font-size:16px}
+.proj li b{color:var(--fg);font-weight:600}
+.proj li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:2px;background:var(--ac);transition:background-color .9s ease}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:26px}
+.chips span{font-family:var(--mono);font-size:11.5px;padding:5px 10px;border:1px solid var(--line);border-radius:99px;color:var(--mute)}
+.links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:28px}
+.links a{font-weight:600;text-decoration:none;border-bottom:2px solid var(--ac);padding-bottom:2px;transition:border-color .9s ease,opacity .2s}
+.links a:hover{opacity:.7}
+.links a.quiet{border-bottom-color:var(--line);font-weight:500;color:var(--mute)}
+
+.stage{position:relative;padding:0 0 9% 0}
+.browser{border-radius:14px;overflow:hidden;background:#17181c;box-shadow:0 50px 100px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.1);transform:rotate(-1.2deg);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.browser .bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:#1d1e23}
+.browser .bar i{width:9px;height:9px;border-radius:50%;background:#3a3c44}
+.browser .bar span{margin-left:10px;font-family:var(--mono);font-size:11px;color:rgba(243,239,232,.5);background:#141519;padding:4px 12px;border-radius:99px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone{position:absolute;right:-1%;bottom:0;width:25%;min-width:104px;border-radius:clamp(14px,2vw,26px);overflow:hidden;border:clamp(4px,.5vw,7px) solid #08090b;background:#08090b;
+  box-shadow:0 40px 70px -20px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.14);transform:rotate(3deg);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.phone img{border-radius:clamp(10px,1.5vw,19px);aspect-ratio:600/1298;object-fit:cover;object-position:top;width:100%}
+.proj:nth-of-type(even) .browser{transform:rotate(1.2deg)}
+.proj:nth-of-type(even) .phone{transform:rotate(-3deg)}
+.stage:hover .browser,.stage:hover .phone{transform:rotate(0)}
+.glow{position:absolute;inset:-12% -8%;background:radial-gradient(closest-side,var(--ac),transparent 70%);opacity:.16;filter:blur(40px);z-index:-1;transition:background .9s ease}
+
+.trio{display:flex;justify-content:center;align-items:flex-end;padding:4% 0}
+.trio .phone{position:relative;right:auto;left:auto;bottom:auto;width:31%;max-width:250px}
+.trio .phone:nth-child(2){transform:rotate(-7deg) translateY(6%);margin-right:-5%;z-index:1}
+.trio .phone:nth-child(3){transform:none;z-index:2;width:34%;max-width:275px}
+.trio .phone:nth-child(4){transform:rotate(7deg) translateY(6%);margin-left:-5%;z-index:1}
+.trio .phone img{aspect-ratio:393/852}
+.stage.trio:hover .phone:nth-child(2){transform:rotate(-10deg) translate(-8%,4%)}
+.stage.trio:hover .phone:nth-child(4){transform:rotate(10deg) translate(8%,4%)}
+
+@media(max-width:900px){
+  .proj{grid-template-columns:1fr;min-height:0}
+  .proj:nth-of-type(even) .copy{order:0}
+  .stage{margin-top:10px}
+}
+
+/* fixes */
+.ledger{display:grid;margin-top:10px}
+.fix{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(0,1fr);gap:clamp(14px,3vw,48px);padding:24px 0;border-bottom:1px solid var(--line);align-items:start}
+.fix .p{font-size:clamp(18px,1.7vw,23px);font-weight:600;letter-spacing:-.02em;line-height:1.25}
+.fix .s{color:var(--mute)}
+.fix .s::before{content:"→ ";color:var(--ac);font-weight:700}
+@media(max-width:700px){.fix{grid-template-columns:30px minmax(0,1fr)}.fix .s{grid-column:2}}
+.note{margin-top:22px;color:var(--faint);font-size:14.5px}
+.note a{color:var(--mute)}
+
+/* about */
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,6vw,100px)}
+.about .big{font-size:clamp(26px,3.3vw,46px);line-height:1.12;letter-spacing:-.035em;font-weight:600}
+.skills{display:grid;gap:0}
+.skills div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;padding:15px 0;border-bottom:1px solid var(--line)}
+.skills div:first-child{border-top:1px solid var(--line)}
+.skills p{color:var(--mute);font-size:15.5px}
+@media(max-width:800px){.about{grid-template-columns:1fr}}
+
+footer{padding:clamp(70px,10vw,130px) var(--pad) 34px}
+footer h2{font-size:clamp(46px,10.5vw,170px);line-height:.88;letter-spacing:-.055em;font-weight:800}
+footer h2 a{text-decoration:none;display:inline-block;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+footer h2 a:hover{transform:translateX(14px)}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:60px;padding-top:18px;border-top:1px solid var(--line)}
+
+/* reveal */
+.anim .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.anim .rv.in{opacity:1;transform:none}
+.anim .rv.d1{transition-delay:.08s}.anim .rv.d2{transition-delay:.16s}.anim .rv.d3{transition-delay:.24s}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top"><i></i>Nizar</a>
+  <nav>
+    <a href="#work">Work</a>
+    <a href="#fixes">Fixes</a>
+    <a href="#about">About</a>
+    <a class="pill" href="https://github.com/notnizar" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<div class="hero" data-bg="#0d0e11" data-ac="#f3efe8">
+  <div>
+    <p class="mono rv">Developer · Amman, Jordan</p>
+    <h1 class="rv d1">I build the <em>whole</em> thing.</h1>
+    <p class="lead rv d2">I'm Nizar. I take a product from the first sketch to a server that stays up: <b>the website, the phone app, the firmware on the device and the backend behind them.</b> Often in English and Arabic.</p>
+    <div class="cta rv d3">
+      <a class="btn solid" href="#work">See the work
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v12M3 9l5 5 5-5"/></svg></a>
+      <a class="btn" href="https://github.com/notnizar" rel="noopener">github.com/notnizar</a>
+    </div>
+    <div class="meta rv d3">
+      <span class="mono"><i class="dot"></i>Amman <span id="clock">--:--</span></span>
+      <span class="mono">BSc Artificial Intelligence, ZUJ</span>
+    </div>
+  </div>
+  <div class="deck rv d2" id="deck" aria-hidden="true">
+    <div class="card" style="--x:-21%;--y:-17%;--r:-9deg"><img src="assets/shots/pumpkin-desktop.webp" alt="" width="1400" height="875"><span>Pumpkin</span></div>
+    <div class="card" style="--x:19%;--y:-21%;--r:7deg"><img src="assets/shots/fao-desktop.webp" alt="" width="1400" height="875"><span>FAO Properties</span></div>
+    <div class="card" style="--x:-15%;--y:19%;--r:5deg"><img src="assets/shots/4tech-home.webp" alt="" width="1400" height="875"><span>4Tech</span></div>
+    <div class="card" style="--x:17%;--y:17%;--r:-6deg"><img src="assets/shots/bloom-admin.webp" alt="" width="1400" height="875"><span>Flower JO admin</span></div>
+    <div class="card" style="--x:0%;--y:0%;--r:-2deg"><img src="assets/shots/bloom-landing.webp" alt="" width="1400" height="875"><span>Flower JO</span></div>
+  </div>
+  <p class="mono scrollcue">Scroll ↓</p>
+</div>
+
+<section id="work" data-bg="#0d0e11" data-ac="#f3efe8">
+  <div class="sec-head rv"><h2>Selected work</h2><span class="mono">05 projects · 2026</span></div>
+  <ul class="rows" id="rows">
+    <li><a href="#bloom" style="--c:#f0764f" data-img="assets/shots/bloom-landing.webp"><span class="mono">01</span><span class="t">Flower JO</span><span class="mono k">Multi-tenant stores</span></a></li>
+    <li><a href="#fourtech" style="--c:#6fe6bd" data-img="assets/shots/4tech-home.webp"><span class="mono">02</span><span class="t">4Tech website</span><span class="mono k">Site · AI quotes</span></a></li>
+    <li><a href="#iot" style="--c:#5cc8ff" data-img="assets/shots/4tech-print.webp" data-alt="iot"><span class="mono">03</span><span class="t">4Tech-IoT</span><span class="mono k">App · firmware · server</span></a></li>
+    <li><a href="#fao" style="--c:#e2bd77" data-img="assets/shots/fao-desktop.webp"><span class="mono">04</span><span class="t">FAO Properties</span><span class="mono k">SEO-first site · CMS</span></a></li>
+    <li><a href="#pumpkin" style="--c:#ff8a2b" data-img="assets/shots/pumpkin-desktop.webp"><span class="mono">05</span><span class="t">Pumpkin Group</span><span class="mono k">Agency site · 3D</span></a></li>
+  </ul>
+</section>
+
+<section class="proj" id="bloom" data-bg="#1b0e10" data-ac="#f0764f">
+  <div class="copy">
+    <div class="num rv">01</div>
+    <p class="mono rv">Product · 2026 · design, code, hosting</p>
+    <h3 class="rv d1">Flower JO</h3>
+    <p class="what rv d1">Online stores for flower shops that sell on WhatsApp and Instagram. One codebase and one database serve every shop.</p>
+    <ul class="rv d2">
+      <li><b>A new shop is a database row and a DNS record.</b> The shop is read from the request's host, and Postgres row-level security enforces the boundary a second time.</li>
+      <li><b>A bouquet builder with a live price,</b> delivery slots the shop can actually make, and a private page for whoever receives the flowers.</li>
+      <li><b>Three storefront looks, English and Arabic,</b> and an owner dashboard that works from a phone.</li>
+    </ul>
+    <div class="chips rv d2"><span>Next.js 16</span><span>React 19</span><span>PostgreSQL 17</span><span>Prisma 7</span><span>Tailwind 4</span><span>Docker</span></div>
+    <div class="links rv d3"><a href="https://petal.164.92.163.208.sslip.io/" rel="noopener">Live demo store ↗</a><a class="quiet" href="https://github.com/notnizar/flower-jo" rel="noopener">Case study on GitHub ↗</a></div>
+  </div>
+  <div class="stage rv d1">
+    <div class="glow"></div>
+    <div class="browser"><div class="bar"><i></i><i></i><i></i><span>flower-jo · landing</span></div><img src="assets/shots/bloom-landing.webp" alt="The Flower JO landing page, headed Orders, not chats" width="1400" height="875" loading="lazy"></div>
+    <div class="phone"><img src="assets/shots/bloom-builder.webp" alt="The bouquet builder on a phone" width="600" height="1298" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="proj" id="fourtech" data-bg="#0a1c19" data-ac="#6fe6bd">
+  <div class="copy">
+    <div class="num rv">02</div>
+    <p class="mono rv">Client · Sep–Nov 2026 · everything</p>
+    <h3 class="rv d1">4Tech website</h3>
+    <p class="what rv d1">A company site that also does work, for an Amman company that teaches robotics, builds smart devices and runs a 3D printing service.</p>
+    <ul class="rv d2">
+      <li><b>Drop a 3D model, get a price at once.</b> The browser measures the model in a Web Worker and draws it in WebGL written without a library. The server never touches the file.</li>
+      <li><b>An AI assistant that makes a first price offer</b> through a checked tool call, from a price guide the staff edit.</li>
+      <li><b>A staff admin panel and 240 backend tests,</b> all sized to run on one 2 GB server.</li>
+    </ul>
+    <div class="chips rv d2"><span>Astro 5</span><span>TypeScript</span><span>FastAPI</span><span>Postgres</span><span>Claude API</span><span>nginx</span><span>Docker</span></div>
+    <div class="links rv d3"><a href="https://4thtechjo.com" rel="noopener">4thtechjo.com ↗</a><a class="quiet" href="https://github.com/notnizar/4thtech-work/blob/main/projects/website.md" rel="noopener">Case study on GitHub ↗</a></div>
+  </div>
+  <div class="stage rv d1">
+    <div class="glow"></div>
+    <div class="browser"><div class="bar"><i></i><i></i><i></i><span>4thtechjo.com</span></div><img src="assets/shots/4tech-home.webp" alt="The 4Tech home page: Ideas, built and printed" width="1400" height="875" loading="lazy"></div>
+    <div class="phone"><img src="assets/shots/4tech-phone.webp" alt="The 4Tech home page in Arabic on a phone" width="600" height="1298" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="proj" id="iot" data-bg="#091422" data-ac="#5cc8ff">
+  <div class="copy">
+    <div class="num rv">03</div>
+    <p class="mono rv">Client · Aug–Oct 2026 · app, firmware, backend</p>
+    <h3 class="rv d1">4Tech-IoT</h3>
+    <p class="what rv d1">One phone app for every 4Tech smart-home device, the firmware the devices run and the self-hosted server between them.</p>
+    <ul class="rv d2">
+      <li><b>The app knows no products.</b> Each device's firmware describes its controls and readings in a schema, and the app builds the screen from that. A new product needs only new firmware.</li>
+      <li><b>Works when the internet doesn't.</b> Setup and control over Bluetooth, remote control through the server, push alerts when a tank runs low.</li>
+      <li><b>A certificate per device,</b> mutual TLS to the broker, and signed over-the-air updates with rollback.</li>
+    </ul>
+    <div class="chips rv d2"><span>Flutter</span><span>ESP32 · C++</span><span>Bluetooth LE</span><span>FastAPI</span><span>EMQX · MQTT</span><span>Postgres</span></div>
+    <div class="links rv d3"><a href="https://github.com/notnizar/4thtech-work/blob/main/projects/iot-app.md" rel="noopener">The app ↗</a><a class="quiet" href="https://github.com/notnizar/4thtech-work/blob/main/projects/iot-backend.md" rel="noopener">The backend ↗</a></div>
+  </div>
+  <div class="stage trio rv d1">
+    <div class="glow"></div>
+    <div class="phone"><img src="assets/shots/iot-alerts.webp" alt="Alerts in the 4Tech-IoT app" width="393" height="852" loading="lazy"></div>
+    <div class="phone"><img src="assets/shots/iot-home.webp" alt="The 4Tech-IoT home screen" width="393" height="852" loading="lazy"></div>
+    <div class="phone"><img src="assets/shots/iot-tank.webp" alt="A water tank in the app, in dark mode" width="393" height="852" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="proj" id="fao" data-bg="#0c1120" data-ac="#e2bd77">
+  <div class="copy">
+    <div class="num rv">04</div>
+    <p class="mono rv">Client · live since Oct 2026 · build, SEO, launch</p>
+    <h3 class="rv d1">FAO Properties</h3>
+    <p class="what rv d1">A search-first website for a Dubai property brokerage, launched in Serbian and built to take more languages.</p>
+    <ul class="rv d2">
+      <li><b>Moved a live site without losing its search traffic:</b> 227 of the old site's 228 addresses redirect to their new page in one hop.</li>
+      <li><b>Built for search and answer engines:</b> structured data on every page type, an llms.txt, and IndexNow pings a minute after each save.</li>
+      <li><b>The client runs it themselves</b> in a CMS that refuses to publish a page that is missing its description or image alt text. Zero automated accessibility violations after launch.</li>
+    </ul>
+    <div class="chips rv d2"><span>Next.js</span><span>Payload CMS</span><span>Postgres</span><span>Playwright</span><span>Cloudflare</span><span>Docker</span></div>
+    <div class="links rv d3"><a href="https://www.faoproperties.com/sr" rel="noopener">faoproperties.com ↗</a></div>
+  </div>
+  <div class="stage rv d1">
+    <div class="glow"></div>
+    <div class="browser"><div class="bar"><i></i><i></i><i></i><span>www.faoproperties.com/sr</span></div><img src="assets/shots/fao-desktop.webp" alt="The FAO Properties home page in Serbian, over a photo of towers in Dubai" width="1400" height="875" loading="lazy"></div>
+    <div class="phone"><img src="assets/shots/fao-phone.webp" alt="FAO Properties on a phone" width="600" height="1298" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="proj" id="pumpkin" data-bg="#1c1106" data-ac="#ff8a2b">
+  <div class="copy">
+    <div class="num rv">05</div>
+    <p class="mono rv">Agency site · 2026 · design and code</p>
+    <h3 class="rv d1">Pumpkin Group</h3>
+    <p class="what rv d1">A bilingual site for a branding and marketing agency in Amman, with a pumpkin made of six thousand particles.</p>
+    <ul class="rv d2">
+      <li><b>The pumpkin is alive.</b> It assembles from a cloud, parts around the cursor, bursts when clicked and dissolves as you scroll past.</li>
+      <li><b>A phone design of its own,</b> not a shrunken desktop: a floating dock, stacking cards and a carousel you swipe.</li>
+      <li><b>One HTML file, no build step.</b> English and Arabic, light and dark, and the finished page at once for anyone who prefers less motion.</li>
+    </ul>
+    <div class="chips rv d2"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Three.js</span><span>View Transitions</span></div>
+    <div class="links rv d3"><a href="https://notnizar.github.io/pumpkin-website/" rel="noopener">Live site ↗</a><a class="quiet" href="https://github.com/notnizar/pumpkin-website" rel="noopener">Source on GitHub ↗</a></div>
+  </div>
+  <div class="stage rv d1">
+    <div class="glow"></div>
+    <div class="browser"><div class="bar"><i></i><i></i><i></i><span>pumpkin-website</span></div><img src="assets/shots/pumpkin-desktop.webp" alt="The Pumpkin Group home page with a pumpkin drawn in orange particles" width="1400" height="875" loading="lazy"></div>
+    <div class="phone"><img src="assets/shots/pumpkin-phone.webp" alt="Pumpkin Group on a phone" width="600" height="1298" loading="lazy"></div>
+  </div>
+</section>
+
+<section id="fixes" data-bg="#0d0e11" data-ac="#f3efe8">
+  <div class="sec-head rv"><h2>Things that broke, <em>and what I did</em></h2><span class="mono">From the 4Tech platform</span></div>
+  <div class="ledger">
+    <div class="fix rv"><span class="mono">01</span><p class="p">The device broker accepted anonymous connections, and the code meant to lock it was failing silently.</p><p class="s">Mutual TLS with a certificate per device, deny by default, and a setup check that fails loudly.</p></div>
+    <div class="fix rv"><span class="mono">02</span><p class="p">The app could not connect from iPhones at all.</p><p class="s">iOS rejects server certificates valid for more than 825 days. Reissued in place, with no change to devices in the field.</p></div>
+    <div class="fix rv"><span class="mono">03</span><p class="p">Orders failed on the real database while every test passed.</p><p class="s">A Postgres sequence that SQLite never needed. Fixed, with a regression test.</p></div>
+    <div class="fix rv"><span class="mono">04</span><p class="p">The ESP32 ran out of memory when Bluetooth, Wi-Fi and TLS ran together.</p><p class="s">Switched the Bluetooth stack and the partition layout.</p></div>
+    <div class="fix rv"><span class="mono">05</span><p class="p">One visitor could lock everyone out of the contact form, and staff out of sign-in.</p><p class="s">The rate limits were counting the proxy's address, not the visitor's.</p></div>
+    <div class="fix rv"><span class="mono">06</span><p class="p">A deploy could leave the site broken.</p><p class="s">A deploy script that backs up, tests the new version and rolls back by itself.</p></div>
+  </div>
+  <p class="note rv">The full list, with causes: <a href="https://github.com/notnizar/4thtech-work/blob/main/problems-solved.md" rel="noopener">problems-solved.md ↗</a></p>
+</section>
+
+<section id="about" data-bg="#0d0e11" data-ac="#f3efe8">
+  <div class="about">
+    <div>
+      <p class="mono rv" style="margin-bottom:20px">About</p>
+      <p class="big rv d1">I study artificial intelligence at Al-Zaytoonah University of Jordan, and I ship software for real businesses in Amman <em>while I do.</em></p>
+    </div>
+    <div class="skills rv d2">
+      <div><span class="mono">Web</span><p>Next.js, Astro, TypeScript, Tailwind, WebGL, English and Arabic right-to-left</p></div>
+      <div><span class="mono">Backend</span><p>Python, FastAPI, Postgres, Prisma, WebSockets, MQTT</p></div>
+      <div><span class="mono">Mobile</span><p>Flutter and Dart, Bluetooth LE, push notifications, store releases</p></div>
+      <div><span class="mono">Embedded</span><p>ESP32 firmware in C++, TLS on a microcontroller, signed OTA updates</p></div>
+      <div><span class="mono">AI</span><p>Claude-based assistants with tool calls, prompt caching and spending limits</p></div>
+      <div><span class="mono">Ops</span><p>Docker, nginx, Cloudflare, backups, deploys that roll themselves back</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer data-bg="#0d0e11" data-ac="#f3efe8">
+  <p class="mono rv" style="margin-bottom:22px">Have something to build?</p>
+  <h2 class="rv d1"><a href="https://github.com/notnizar" rel="noopener">Let's <em>talk</em> →</a></h2>
+  <div class="foot">
+    <span class="mono">© 2026 Nizar · Amman, Jordan</span>
+    <span class="mono"><a href="https://github.com/notnizar" rel="noopener">github.com/notnizar</a></span>
+  </div>
+</footer>
+
+<div class="peek" id="peek" aria-hidden="true"></div>
+
+<script>
+(function(){
+  var d=document, root=d.documentElement, body=d.body;
+  var calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // reveal on scroll
+  if('IntersectionObserver' in window && !calm){
+    root.classList.add('anim');
+    var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+    d.querySelectorAll('.rv').forEach(function(el){ro.observe(el)});
+  }
+
+  // the page takes each project's colours
+  if('IntersectionObserver' in window){
+    var to=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
+      body.style.setProperty('--bg',e.target.dataset.bg);body.style.setProperty('--ac',e.target.dataset.ac);
+    }})},{rootMargin:'-50% 0px -50% 0px'});
+    d.querySelectorAll('[data-bg]').forEach(function(el){to.observe(el)});
+  }
+
+  // nav border
+  var nav=d.getElementById('nav');
+  addEventListener('scroll',function(){nav.classList.toggle('stuck',scrollY>10)},{passive:true});
+
+  // Amman clock
+  var clock=d.getElementById('clock');
+  function tick(){try{clock.textContent=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Amman'}).format(new Date())}catch(e){}}
+  tick();setInterval(tick,20000);
+
+  if(calm||!matchMedia('(hover:hover)').matches) return;
+
+  // hero deck follows the pointer
+  var deck=d.getElementById('deck'), cards=[].slice.call(deck.children);
+  var base=cards.map(function(c){return {x:parseFloat(c.style.getPropertyValue('--x')),y:parseFloat(c.style.getPropertyValue('--y'))}});
+  d.querySelector('.hero').addEventListener('pointermove',function(e){
+    var nx=e.clientX/innerWidth-.5, ny=e.clientY/innerHeight-.5;
+    cards.forEach(function(c,i){var k=1+(base[i].x||base[i].y?1:0)*.9;
+      c.style.setProperty('--x',(base[i].x*(1+Math.abs(nx)*.5)+nx*9*k)+'%');
+      c.style.setProperty('--y',(base[i].y*(1+Math.abs(ny)*.5)+ny*9*k)+'%');});
+  });
+
+  // index preview follows the cursor
+  var peek=d.getElementById('peek'), rows=d.getElementById('rows'), imgs={};
+  rows.querySelectorAll('a').forEach(function(a){
+    var im=new Image();im.src=a.dataset.alt==='iot'?'assets/shots/iot-home.webp':a.dataset.img;im.alt='';
+    if(a.dataset.alt==='iot'){im.style.objectFit='contain';im.style.background='#eef2f6'}
+    peek.appendChild(im);imgs[a.getAttribute('href')]=im;
+    a.addEventListener('pointerenter',function(){for(var k in imgs)imgs[k].classList.remove('on');im.classList.add('on');peek.classList.add('on')});
+  });
+  rows.addEventListener('pointerleave',function(){peek.classList.remove('on')});
+  var tx=0,ty=0,px=0,py=0,rot=0;
+  rows.addEventListener('pointermove',function(e){tx=e.clientX;ty=e.clientY});
+  (function loop(){
+    var dx=tx-px;px+=dx*.14;py+=(ty-py)*.14;rot+=((Math.max(-14,Math.min(14,dx*.12)))-rot)*.12;
+    peek.style.transform='translate('+(px+28)+'px,'+(py-110)+'px) rotate('+rot+'deg)';
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
+</body>
+</html>
